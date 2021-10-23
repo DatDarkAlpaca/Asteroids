@@ -1,10 +1,13 @@
 #include "scene_manager.h"
 #include "scene.h"
 
+SceneManager::SceneManager(Game* game)
+    : game(game)
+{
+}
+
 SceneManager::~SceneManager()
 {
-    std::map<std::string, Scene*> m_scenes;
-
     for(auto& scene : m_scenes)
     {
         delete scene.second;

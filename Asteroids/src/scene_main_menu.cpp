@@ -1,28 +1,26 @@
 #include "scene_main_menu.h"
 #include "game.h"
 
-// Create 3 asteroids
-// makes them walk
-// if one collides out
-// delete and make another
-
 void SceneMainMenu::initialize()
 {
     // Initial Asteroids:
     for(size_t i = 0; i < 3; ++i)
         m_asteroids.push_back(new Asteroid());
 
+    // Font:
     m_font = new sf::Font;
     if (!m_font->loadFromFile("free-pixel.ttf"))
         return;
     
+    // Text:    
     m_gameTitle.setString("Asteroids");
     m_gameTitle.setCharacterSize(60);
 
-    float w = float(m_gameTitle.getString().getSize()) * float(m_gameTitle.getCharacterSize());
-
-    m_gameTitle.setPosition({ (game::windowWidth / 2) - (w / 4), 75 });
+    float w = m_gameTitle.getCharacterSize() * m_gameTitle.getString().getSize();
+    m_gameTitle.setPosition({ float(game::windowWidth / 2) - (w / 4), 75 });
     m_gameTitle.setFont(*m_font);
+    
+    // Buttons:
     m_singlePlayButton = new Button(
         { float((game::windowWidth / 2) - 125), float(game::windowHeight / 2) },
         { 250, 40}, m_font, "Play");
@@ -34,8 +32,8 @@ void SceneMainMenu::initialize()
 
 void SceneMainMenu::update(float dt)
 {
+    // Buttons:
     m_singlePlayButton->update(sf::Mouse::getPosition(*m_sceneManager->game->getWindow()));
-
     m_exitButton->update(sf::Mouse::getPosition(*m_sceneManager->game->getWindow()));
 
     if (m_singlePlayButton->isPressed())
@@ -63,23 +61,15 @@ void SceneMainMenu::update(float dt)
 
         ++asteroidCounter;
     }
-
-    for (size_t i = 0; i < m_asteroids.size(); ++i)
-    {
-        for (size_t j = 0; j < m_asteroids.size(); ++j)
-        {
-            if (i == j)
-                continue;
-        }
-    }
 }
 
 void SceneMainMenu::render(sf::RenderWindow* m_window)
 {
+    // Text:
     m_window->draw(m_gameTitle);
 
+    // Buttons:
     m_singlePlayButton->render(*m_window);
-
     m_exitButton->render(*m_window);
 
     // Asteroids:

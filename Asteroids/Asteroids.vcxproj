@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\asteroid.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\random.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="include\asteroid.h" />
     <ClInclude Include="include\bullet.h" />
     <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\physics_component.h" />
     <ClInclude Include="include\random.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\scene_main_menu.h" />

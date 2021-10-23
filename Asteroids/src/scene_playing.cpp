@@ -17,6 +17,11 @@ static bool collides(const Asteroid* asteroid, const Ship* ship)
 	return ship->getHitbox().getGlobalBounds().intersects(asteroid->getHitbox().getGlobalBounds());
 }
 
+ScenePlaying::ScenePlaying(int difficulty)
+{
+	setDificulty(difficulty);
+}
+
 void ScenePlaying::initialize()
 {
 	using namespace game;
@@ -58,9 +63,8 @@ void ScenePlaying::initialize()
 	for (size_t i = 0; i < 3; i++)
 		m_asteroidArray.push_back(new Asteroid(true));
 
-	// Player:
+	// Ship:
 	ship = new Ship();
-	ship->setColor(sf::Color::Cyan);
 
 	ship->setPosition({ float(rand() % 100 + 400), float(rand() % 100 + 400) });
 	ship->setRotation((float)intDis(gen, param_int_t(0, 359)));
@@ -81,9 +85,9 @@ void ScenePlaying::update(float dt)
 		if (m_restartButton->isPressed())
 		{
 			// Saving highscore:
-			if (m_score >= m_highScoreValue)
+			if ((int)m_score >= m_highScoreValue)
 			{
-				m_highScoreValue = m_score;
+				m_highScoreValue = (int)m_score;
 
 				std::ofstream  highScoreFile("data.d", std::ios_base::trunc);
 				if (highScoreFile.good())
@@ -91,17 +95,14 @@ void ScenePlaying::update(float dt)
 				highScoreFile.close();
 			}
 
-			ship->setShootCooldown(0.4f);
-			ship->setBrakingConstant(50.f);
+			// Restart Ship:
+			using namespace game;
+			ship->setPosition({ float(rand() % 100 + 400), float(rand() % 100 + 400) });
+			ship->setRotation((float)intDis(gen, param_int_t(0, 359)));
 
-			m_difficulty = 0;
-			m_score = 0;
-			ship->resetCooldown();
-			ship->stop();
+			ship->resetShip();
 
-			m_gameover = false;
-			ship->setHealth(3);
-			ship->setColor(sf::Color::White);
+			resetScene();
 
 			// Restart asteroids:
 			for (size_t i = 0; i < m_asteroidArray.size(); ++i)
@@ -119,11 +120,6 @@ void ScenePlaying::update(float dt)
 				--i;
 			}
 
-			// Restart Ship:
-			using namespace game;
-			ship->setPosition({ float(rand() % 100 + 400), float(rand() % 100 + 400) });
-			ship->setRotation((float)intDis(gen, param_int_t(0, 359)));
-
 			// New Asteroids:
 			for(size_t i = 0; i < 3; ++i)
 				m_asteroidArray.push_back(new Asteroid(true));
@@ -139,7 +135,6 @@ void ScenePlaying::update(float dt)
 	{
 		if (m_difficulty < 3)
 		{
-			std::cout << "Dificculty increased\n";
 			m_difficultyIncreaseCooldown = 0;
 			setDificulty(m_difficulty + 1);
 		}
@@ -147,7 +142,7 @@ void ScenePlaying::update(float dt)
 
 	// Ship:
 	ship->update(dt);
-	if (ship->getHealth() <= 0)
+	if (m_shipLifes <= 0)
 		m_gameover = true;
 
 	// Shooting:
@@ -204,10 +199,9 @@ void ScenePlaying::update(float dt)
 			--asteroidCounter;
 
 			// Decrease the health:
+			--m_shipLifes;
 			ship->takeHit();
 
-			// Disable the ship's hitbox:
-			ship->disableHitbox();
 			continue;
 		}
 
@@ -279,18 +273,13 @@ void ScenePlaying::update(float dt)
 
 		for(size_t i = 0; i < asteroidAmount; ++i)
 			m_asteroidArray.push_back(new Asteroid(shallFollow));
-
-		std::cout << "Spawned " << asteroidAmount << " entities - D: " << m_difficulty << '\n';
 	}
 	else
 		m_currentAsteroidCooldown += dt;
-
-	// Update ship life:
-	m_shipLifes = ship->getHealth();
 	
 	// Update highscore:
 	if (m_score > m_highScoreValue)
-		m_highScoreValue = m_score;
+		m_highScoreValue = (int)m_score;
 
 	// PassiveScore:
 	m_score += m_scoreIncrease;
@@ -302,9 +291,9 @@ void ScenePlaying::update(float dt)
 	}
 
 	// Auto-highscore:
-	if (m_score >= m_highScoreValue)
+	if ((int)m_score >= m_highScoreValue)
 	{
-		m_highScoreValue = m_score;
+		m_highScoreValue = (int)m_score;
 
 		std::ofstream  highScoreFile("data.d", std::ios_base::trunc);
 		if (highScoreFile.good())
@@ -321,8 +310,11 @@ void ScenePlaying::handleInput()
 void ScenePlaying::render(sf::RenderWindow* m_window)
 {
 	// Ship:
-	if(ship->getHealth() > 0)
+	if (!m_gameover)
+	{
 		m_window->draw(*ship);
+		m_window->draw(ship->getHitbox());
+	}
 	else
 	{
 		m_window->draw(m_gameOverText);
@@ -340,5 +332,70 @@ void ScenePlaying::render(sf::RenderWindow* m_window)
 
 	// Asteroids:
 	for (auto* asteroid : m_asteroidArray)
+	{
 		m_window->draw(*asteroid);
+		m_window->draw(asteroid->getHitbox());
+	}
+}
+
+void ScenePlaying::setDificulty(int difficulty)
+{
+	m_difficulty = difficulty;
+
+	switch (m_difficulty)
+	{
+		case 0:
+		{
+			m_AsteroidCooldownMax = 7.f;
+			m_scoreIncrease = 0.05f;
+			break;
+		}
+
+		case 1:
+		{
+			m_AsteroidCooldownMax = 5.f;
+			m_scoreIncrease = 0.1f;
+
+			if (ship != nullptr)
+			{
+				ship->setShootCooldown(0.35f);
+			}
+
+			break;
+		}
+
+		case 2:
+		{
+			m_AsteroidCooldownMax = 3.f;
+			m_scoreIncrease = 0.2f;
+
+			if (ship != nullptr)
+			{
+				ship->setShootCooldown(0.25f);
+			}
+
+			break;
+		}
+
+		case 3:
+		{
+			m_AsteroidCooldownMax = 2.f;
+			m_scoreIncrease = 0.25;
+
+			if (ship != nullptr)
+			{
+				ship->setShootCooldown(0.1f);
+			}
+
+			break;
+		}
+	}
+}
+
+void ScenePlaying::resetScene()
+{
+	m_gameover = false;
+	m_difficulty = 0;
+	m_shipLifes = 3;
+	m_score = 0;
 }

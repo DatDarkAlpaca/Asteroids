@@ -4,7 +4,7 @@ void Game::run()
 {
     createWindow();
 
-    handleAspectRatio();
+    // handleAspectRatio();
 
     createScenes();
 
@@ -52,6 +52,7 @@ void Game::render()
 
 void Game::handleAspectRatio()
 {
+    // Todo: properly handle aspect ratio.
     // https://en.sfml-dev.org/forums/index.php?topic=20908.0
 
     sf::View theView = m_window->getView();

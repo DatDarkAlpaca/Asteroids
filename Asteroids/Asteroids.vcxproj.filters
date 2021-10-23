@@ -1,81 +1,114 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Game">
+      <UniqueIdentifier>{25f03bd9-1fcb-4bb6-9895-4abcb3b4c121}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{489f56ea-1df3-4a8f-9705-9cad8c05d574}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Scenes\Main Menu">
+      <UniqueIdentifier>{b6fa97fc-4e17-438b-857c-8d91069cf727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Playing">
+      <UniqueIdentifier>{743f3bdd-7508-4bf0-939e-329cc927a2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{62bd8c9b-6212-4e22-9805-86e5391ee047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{96c844ab-3053-403e-a2fa-425484de7de8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Random">
+      <UniqueIdentifier>{3d396cd8-48fe-4a07-9f3a-e43e373a5d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Settings">
+      <UniqueIdentifier>{4c7da1fe-b127-4dad-8ee2-c368e652d663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Vector Utils">
+      <UniqueIdentifier>{2297098c-4820-4728-a50e-994780fdd00f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{3d4cc083-0265-4204-bd2f-7a938f988a98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Asteroid">
+      <UniqueIdentifier>{a17cf320-609f-4707-bdc9-34b2ecb37fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullet">
+      <UniqueIdentifier>{0928f0d6-682c-492a-b5a1-4d72b6c7af99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Ship">
+      <UniqueIdentifier>{3fd46e12-a6bf-40a5-868d-1ea88910fc79}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ship.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="src\scene_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene_playing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\settings.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="src\scene_main_menu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Scenes\Main Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene_playing.cpp">
+      <Filter>Scenes\Playing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ship.cpp">
+      <Filter>Objects\Ship</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="src\random.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Utils\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="src\settings.cpp">
+      <Filter>Utils\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroid.cpp">
+      <Filter>Objects\Asteroid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\scene.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="include\scene_manager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="include\scene_playing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\settings.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\scene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="include\scene_main_menu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Scenes\Main Menu</Filter>
     </ClInclude>
-    <ClInclude Include="include\bullet.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\scene_playing.h">
+      <Filter>Scenes\Playing</Filter>
     </ClInclude>
     <ClInclude Include="include\asteroid.h">
-      <Filter>Header Files</Filter>
+      <Filter>Objects\Asteroid</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bullet.h">
+      <Filter>Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ship.h">
+      <Filter>Objects\Ship</Filter>
+    </ClInclude>
+    <ClInclude Include="include\button.h">
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="include\random.h">
-      <Filter>Header Files</Filter>
+      <Filter>Utils\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings.h">
+      <Filter>Utils\Settings</Filter>
     </ClInclude>
     <ClInclude Include="include\vector_utils.h">
-      <Filter>Header Files</Filter>
+      <Filter>Utils\Vector Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\physics_component.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

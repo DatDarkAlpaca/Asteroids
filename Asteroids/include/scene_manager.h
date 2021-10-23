@@ -8,7 +8,7 @@ class Scene;
 class SceneManager
 {
 public:
-    SceneManager(Game* game) : game(game) {}
+    SceneManager(Game* game);
     ~SceneManager();
 
 public:

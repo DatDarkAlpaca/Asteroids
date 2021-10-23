@@ -14,7 +14,6 @@ class SceneMainMenu : public Scene
 public:
     ~SceneMainMenu()
     {
-        std::cout << "Deleting main menu\n";
         delete m_singlePlayButton;
         delete m_font;
         delete m_exitButton;

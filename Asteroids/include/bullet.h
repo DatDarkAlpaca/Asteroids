@@ -5,8 +5,8 @@
 class Bullet : public sf::CircleShape
 {
 public:
-	Bullet(const sf::Vector2f& position, const sf::Vector2f& direction, float velocity = 650.f)
-		: m_velocity(velocity), m_direction(direction)
+	Bullet(const sf::Vector2f& position, const sf::Vector2f& direction, float speed = 650.f)
+		: m_speed(speed), m_direction(direction)
 	{
 		setRadius(3.f);
 		setFillColor(sf::Color::White);
@@ -16,7 +16,7 @@ public:
 public:
 	void update(float dt)
 	{
-		move(m_direction * dt * m_velocity);
+		move(m_direction * dt * m_speed);
 	}
 
 	bool isOutOfScreen()
@@ -38,5 +38,5 @@ public:
 
 private:
 	sf::Vector2f m_direction;
-	float m_velocity;
+	float m_speed = 650.f;
 };

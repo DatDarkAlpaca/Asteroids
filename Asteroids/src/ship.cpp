@@ -4,33 +4,19 @@
 Ship::Ship()
 {
 	createShip();
-}
 
-void Ship::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	states.transform *= getTransform();
-	target.draw(m_vertices, states);
+    // Initializing physics:
+    m_physics.acceleration = { 350.f, 350.f };
+    m_physics.angularSpeed = 200.f;
+    m_physics.drag = 150.f;
+    m_physics.maxSpeed = 150.f;
+    m_physics.minSpeed = -150.f;
 }
 
 void Ship::update(float dt)
 {
     // Hitbox:
-    m_hitbox.setPosition({
-        getPosition().x,
-        getPosition().y
-    });
-
-    m_hitbox.setOrigin({
-        getBounds().width / 2,
-        getBounds().height / 2
-    });
-
-    m_hitbox.setSize({
-        getBounds().width,
-        getBounds().height
-    });
-
-    m_hitbox.setRotation(getRotation());
+    updateHitbox();
 
     // Shooting Cooldown:
     if (m_shootingCooldown < m_shootinCooldownMax)
@@ -42,44 +28,38 @@ void Ship::update(float dt)
         if (m_hitboxCooldown < m_hitboxCooldownMax)
         {
             m_hitboxCooldown += dt;
-            setColor(sf::Color::Red);
+            setOutlineColor(sf::Color::Red);
         }
         else
         {
             m_hitBoxEnabled = true;
             m_hitboxCooldown = 0;
-            setColor(sf::Color::White);
+            setOutlineColor(sf::Color::White);
         }
     }
 
     // Movement:
-    if (m_accelerationDirection == 1)
-        accelerate(dt);
-    else if (m_accelerationDirection == -1)
-        brake(dt, 2.f);
+    if (m_accelerating)
+        m_physics.accelerate(dt, getRotation());
+    else if (m_braking)
+        m_physics.brake(dt, 2.f);
     else
-        brake(dt);
+        m_physics.brake(dt);
 
     // Clamping:
-    clampVelocity();
+    m_physics.clampVelocity();
     clampPosition();
 
-    rotate(m_rotationDirection * dt * m_angularSpeed);
+    rotate(m_rotationDirection * dt * m_physics.angularSpeed);
 
-    move(m_currentVelocity * dt);
+    move(m_physics.velocity * dt);
 }
 
 void Ship::handleInput()
 {
-    // Position:
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        m_accelerationDirection = 1;
+    m_accelerating = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        m_accelerationDirection = -1;
-
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        m_accelerationDirection = 0;
+    m_braking = sf::Keyboard::isKeyPressed(sf::Keyboard::S);   
 
     // Rotation:
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -96,89 +76,68 @@ void Ship::handleInput()
         m_shooting = false;
 }
 
-void Ship::setColor(const sf::Color& color)
+void Ship::updateHitbox()
 {
-    for (size_t i = 0; i < m_vertices.getVertexCount(); ++i)
-        m_vertices[i].color = color;
-}
-
-void Ship::accelerate(float dt)
-{
-    m_currentVelocity.x += m_accelerationDirection * m_acceleration * dt * cosf((getRotation() + 90.f) * 3.1415f / 180.f);
-    m_currentVelocity.y += m_accelerationDirection * m_acceleration * dt * sinf((getRotation() + 90.f) * 3.1415f / 180.f);
-}
-
-void Ship::clampVelocity()
-{
-    if (m_currentVelocity.x >= m_maximumSpeed)
-        m_currentVelocity.x = m_maximumSpeed;
-
-    else if (m_currentVelocity.x <= -m_maximumSpeed)
-        m_currentVelocity.x = -m_maximumSpeed;
-
-    if (m_currentVelocity.y >= m_maximumSpeed)
-        m_currentVelocity.y = m_maximumSpeed;
-
-    else if (m_currentVelocity.y <= -m_maximumSpeed)
-        m_currentVelocity.y = -m_maximumSpeed;
+    // Hitbox:
+    m_hitbox.setPosition(getPosition());
+    m_hitbox.setRotation(getRotation());
 }
 
 void Ship::clampPosition()
 {
-    if (getPosition().x <= -m_width && m_currentVelocity.x < 0)
+    if (getPosition().x <= -m_width && m_physics.velocity.x < 0)
         setPosition(game::windowWidth + m_width, getPosition().y);
 
-    if (getPosition().x > game::windowWidth + m_width && m_currentVelocity.x > 0)
+    if (getPosition().x > game::windowWidth + m_width && m_physics.velocity.x > 0)
         setPosition(-m_width, getPosition().y);
 
     float total_height = (m_extraHeight + m_mainHeight) / 2;
-    if (getPosition().y <= -total_height && m_currentVelocity.y < 0)
+    if (getPosition().y <= -total_height && m_physics.velocity.y < 0)
         setPosition(getPosition().x, game::windowHeight + total_height);
 
-    if (getPosition().y > game::windowHeight + total_height && m_currentVelocity.y > 0)
+    if (getPosition().y > game::windowHeight + total_height && m_physics.velocity.y > 0)
         setPosition(getPosition().x, -total_height);
-}
-
-void Ship::brake(float dt, float multiplier)
-{
-    if (m_currentVelocity.y >= 0)
-        m_currentVelocity += { 0, -m_breakingConstant * dt * multiplier };
-
-    if (m_currentVelocity.y <= 0)
-        m_currentVelocity += { 0, m_breakingConstant* dt * multiplier };
-
-    if (m_currentVelocity.x >= 0)
-        m_currentVelocity += { -m_breakingConstant * dt * multiplier, 0 };
-
-    if (m_currentVelocity.x <= 0)
-        m_currentVelocity += { m_breakingConstant* dt * multiplier, 0};
 }
 
 void Ship::createShip()
 {
-    m_hitbox.setOutlineColor(sf::Color::Green);
-    m_hitbox.setFillColor(sf::Color::Transparent);
-    m_hitbox.setOutlineThickness(1);
-
     // Origin:
     setOrigin({ 0, -(m_mainHeight + m_extraHeight) / 2 });
 
     // Shape:
-    m_vertices.setPrimitiveType(sf::PrimitiveType::LineStrip);
-    m_vertices.resize(5);
+    std::vector<sf::Vector2f> points;
+ 
+    points.push_back({ 0.f, 0.f });
+    points.push_back({ -m_width, -(m_mainHeight + m_extraHeight) });
+    points.push_back({ 0.f, -m_mainHeight });
+    points.push_back({ m_width, -(m_mainHeight + m_extraHeight) });
 
-    m_vertices[0].position = { 0.f, 0.f };
-    m_vertices[1].position = { -m_width, -(m_mainHeight + m_extraHeight) };
-    m_vertices[2].position = { 0.f, -m_mainHeight };
-    m_vertices[3].position = { m_width, -(m_mainHeight + m_extraHeight) };
-    m_vertices[4].position = { 0.f, 0.f };
+    // Setting the shape:
+    setFillColor(sf::Color::Transparent);
+    setOutlineColor(sf::Color::White);
+    setOutlineThickness(1.f);
 
-    for (size_t i = 0; i < m_vertices.getVertexCount(); ++i)
-        m_vertices[i].color = sf::Color::White;
+    setPointCount(points.size());
+    for (size_t i = 0; i < points.size(); ++i)
+        setPoint(i, points[i]);
 
-    // Bounding box:
-    m_boundingBox.left = -m_width;
-    m_boundingBox.width = 2 * m_width;
-    m_boundingBox.top = -(m_mainHeight + m_extraHeight);
-    m_boundingBox.height = m_mainHeight + m_extraHeight;
+    // Hitbox:
+    m_hitbox.setOrigin({ m_width, (m_mainHeight + m_extraHeight) / 2 });
+    m_hitbox.setSize({ m_width * 2, m_mainHeight + m_extraHeight });
+
+    m_hitbox.setOutlineColor(sf::Color::Green);
+    m_hitbox.setFillColor(sf::Color::Transparent);
+    m_hitbox.setOutlineThickness(1);
+}
+
+void Ship::resetShip()
+{
+    setShootCooldown(0.4f);
+
+    m_hitBoxEnabled = true;
+    m_hitboxCooldown = 0;
+
+    m_physics.stop();
+
+    setOutlineColor(sf::Color::White);
 }
