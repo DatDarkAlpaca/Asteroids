@@ -10,13 +10,45 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\free-pixel.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\SceneMainMenu.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Systems.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Bullet.h" />
+    <ClInclude Include="src\Ship.h" />
+    <ClInclude Include="src\SceneMainMenu.h" />
+    <ClInclude Include="src\SceneManager.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Components.h" />
+    <ClInclude Include="src\Systems.h" />
+    <ClInclude Include="src\vector_utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{89781c53-4e3b-4725-959c-bc95beace55e}</ProjectGuid>
     <RootNamespace>Asteroids</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Client</ProjectName>
+    <ProjectName>Asteroids</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -48,13 +80,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)vendor\entt\include;$(ProjectDir)include\**;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)vendor\entt\include;$(ProjectDir)include\**;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -63,6 +95,9 @@
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\libraries\SFML-2.5.1-x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,6 +115,9 @@
       <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\libraries\SFML-2.5.1-x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -90,35 +128,6 @@
       <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;sfml-network-s.lib;opengl32.lib;openal32.lib;freetype.lib;winmm.lib;gdi32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\asteroid.cpp" />
-    <ClCompile Include="src\game.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\random.cpp" />
-    <ClCompile Include="src\scene_main_menu.cpp" />
-    <ClCompile Include="src\scene_manager.cpp" />
-    <ClCompile Include="src\scene_playing.cpp" />
-    <ClCompile Include="src\settings.cpp" />
-    <ClCompile Include="src\ship.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\asteroid.h" />
-    <ClInclude Include="include\bullet.h" />
-    <ClInclude Include="include\game.h" />
-    <ClInclude Include="include\physics_component.h" />
-    <ClInclude Include="include\random.h" />
-    <ClInclude Include="include\scene.h" />
-    <ClInclude Include="include\scene_main_menu.h" />
-    <ClInclude Include="include\scene_manager.h" />
-    <ClInclude Include="include\scene_playing.h" />
-    <ClInclude Include="include\settings.h" />
-    <ClInclude Include="include\ship.h" />
-    <ClInclude Include="include\button.h" />
-    <ClInclude Include="include\vector_utils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="free-pixel.ttf" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,9 +1,10 @@
-#include "game.h"
+#include "pch.h"
+#include "Application.h"
 
 int main()
 {
-    Game game;
-    game.run();
+	ast::Application app;
+	app.Run();
 
-    return 0;
+	return 0;
 }

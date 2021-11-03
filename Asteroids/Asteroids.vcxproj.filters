@@ -1,117 +1,104 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Game">
-      <UniqueIdentifier>{25f03bd9-1fcb-4bb6-9895-4abcb3b4c121}</UniqueIdentifier>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{ca268cf2-c449-4ce1-ae90-0a2772ac9367}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{489f56ea-1df3-4a8f-9705-9cad8c05d574}</UniqueIdentifier>
+    <Filter Include="Asteroids">
+      <UniqueIdentifier>{13c2f93a-dad4-41fe-856d-5ece6ad6ce2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\Main Menu">
-      <UniqueIdentifier>{b6fa97fc-4e17-438b-857c-8d91069cf727}</UniqueIdentifier>
+    <Filter Include="Asteroids\Application">
+      <UniqueIdentifier>{18e743f0-f38f-41b3-a96e-6f80ed94fdc6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\Playing">
-      <UniqueIdentifier>{743f3bdd-7508-4bf0-939e-329cc927a2ec}</UniqueIdentifier>
+    <Filter Include="Asteroids\PCH">
+      <UniqueIdentifier>{bbfb7ac7-cbff-488d-9648-30f6d55f7492}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{62bd8c9b-6212-4e22-9805-86e5391ee047}</UniqueIdentifier>
+    <Filter Include="Asteroids\Scenes">
+      <UniqueIdentifier>{23a34533-209a-4680-8105-230e7d537c87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{96c844ab-3053-403e-a2fa-425484de7de8}</UniqueIdentifier>
+    <Filter Include="Asteroids\Scenes\Manager">
+      <UniqueIdentifier>{8fb4430c-8183-46d5-9ed4-2c87fb51e27f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils\Random">
-      <UniqueIdentifier>{3d396cd8-48fe-4a07-9f3a-e43e373a5d2f}</UniqueIdentifier>
+    <Filter Include="Asteroids\Scenes\MainMenu">
+      <UniqueIdentifier>{d6134302-6e22-441d-9af3-31dd1a0dfe0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils\Settings">
-      <UniqueIdentifier>{4c7da1fe-b127-4dad-8ee2-c368e652d663}</UniqueIdentifier>
+    <Filter Include="Asteroids\ECS">
+      <UniqueIdentifier>{81e53e69-8cad-44e7-aaeb-578c718c0952}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils\Vector Utils">
-      <UniqueIdentifier>{2297098c-4820-4728-a50e-994780fdd00f}</UniqueIdentifier>
+    <Filter Include="Asteroids\ECS\Components">
+      <UniqueIdentifier>{af123053-2396-4c7a-8761-96e402a747b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
-      <UniqueIdentifier>{3d4cc083-0265-4204-bd2f-7a938f988a98}</UniqueIdentifier>
+    <Filter Include="Asteroids\ECS\Prefabs">
+      <UniqueIdentifier>{d6b79530-b794-4e70-aac4-8f11905565c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Asteroid">
-      <UniqueIdentifier>{a17cf320-609f-4707-bdc9-34b2ecb37fd6}</UniqueIdentifier>
+    <Filter Include="Asteroids\ECS\Systems">
+      <UniqueIdentifier>{abe08da7-4b6f-4f0a-865f-7f602a8b1c9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Bullet">
-      <UniqueIdentifier>{0928f0d6-682c-492a-b5a1-4d72b6c7af99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Ship">
-      <UniqueIdentifier>{3fd46e12-a6bf-40a5-868d-1ea88910fc79}</UniqueIdentifier>
+    <Filter Include="Asteroids\Utils">
+      <UniqueIdentifier>{a3e7af64-a4e1-472e-b5fc-f9af8181caf9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\game.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>Asteroids\Application</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene_manager.cpp">
-      <Filter>Scenes</Filter>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>Asteroids\PCH</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene_main_menu.cpp">
-      <Filter>Scenes\Main Menu</Filter>
+    <ClCompile Include="src\Core.cpp">
+      <Filter>Asteroids\Application</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene_playing.cpp">
-      <Filter>Scenes\Playing</Filter>
+    <ClCompile Include="src\SceneManager.cpp">
+      <Filter>Asteroids\Scenes\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\ship.cpp">
-      <Filter>Objects\Ship</Filter>
+    <ClCompile Include="src\SceneMainMenu.cpp">
+      <Filter>Asteroids\Scenes\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Asteroids</Filter>
     </ClCompile>
-    <ClCompile Include="src\random.cpp">
-      <Filter>Utils\Random</Filter>
-    </ClCompile>
-    <ClCompile Include="src\settings.cpp">
-      <Filter>Utils\Settings</Filter>
-    </ClCompile>
-    <ClCompile Include="src\asteroid.cpp">
-      <Filter>Objects\Asteroid</Filter>
+    <ClCompile Include="src\Systems.cpp">
+      <Filter>Asteroids\ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\game.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="src\Application.h">
+      <Filter>Asteroids\Application</Filter>
     </ClInclude>
-    <ClInclude Include="include\scene_manager.h">
-      <Filter>Scenes</Filter>
+    <ClInclude Include="src\pch.h">
+      <Filter>Asteroids\PCH</Filter>
     </ClInclude>
-    <ClInclude Include="include\scene.h">
-      <Filter>Scenes</Filter>
+    <ClInclude Include="src\Core.h">
+      <Filter>Asteroids\Application</Filter>
     </ClInclude>
-    <ClInclude Include="include\scene_main_menu.h">
-      <Filter>Scenes\Main Menu</Filter>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Asteroids\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="include\scene_playing.h">
-      <Filter>Scenes\Playing</Filter>
+    <ClInclude Include="src\SceneManager.h">
+      <Filter>Asteroids\Scenes\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\asteroid.h">
-      <Filter>Objects\Asteroid</Filter>
+    <ClInclude Include="src\SceneMainMenu.h">
+      <Filter>Asteroids\Scenes\MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="include\bullet.h">
-      <Filter>Objects\Bullet</Filter>
+    <ClInclude Include="src\Components.h">
+      <Filter>Asteroids\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="include\ship.h">
-      <Filter>Objects\Ship</Filter>
+    <ClInclude Include="src\Systems.h">
+      <Filter>Asteroids\ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="include\button.h">
-      <Filter>UI</Filter>
+    <ClInclude Include="src\vector_utils.h">
+      <Filter>Asteroids\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\random.h">
-      <Filter>Utils\Random</Filter>
+    <ClInclude Include="src\Ship.h">
+      <Filter>Asteroids\ECS\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="include\settings.h">
-      <Filter>Utils\Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="include\vector_utils.h">
-      <Filter>Utils\Vector Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="include\physics_component.h">
-      <Filter>Objects</Filter>
+    <ClInclude Include="src\Bullet.h">
+      <Filter>Asteroids\ECS\Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="free-pixel.ttf" />
+    <Font Include="res\free-pixel.ttf">
+      <Filter>Resources</Filter>
+    </Font>
   </ItemGroup>
 </Project>
