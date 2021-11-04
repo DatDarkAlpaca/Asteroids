@@ -39,61 +39,70 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application.cpp">
+    <ClCompile Include="src\application\Application.cpp">
       <Filter>Asteroids\Application</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>Asteroids\PCH</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core.cpp">
+    <ClCompile Include="src\application\Core.cpp">
       <Filter>Asteroids\Application</Filter>
     </ClCompile>
-    <ClCompile Include="src\SceneManager.cpp">
+    <ClCompile Include="src\scenes\SceneManager.cpp">
       <Filter>Asteroids\Scenes\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\SceneMainMenu.cpp">
+    <ClCompile Include="src\scenes\SceneMainMenu.cpp">
       <Filter>Asteroids\Scenes\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Asteroids</Filter>
     </ClCompile>
-    <ClCompile Include="src\Systems.cpp">
+    <ClCompile Include="src\systems\Systems.cpp">
       <Filter>Asteroids\ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h">
+    <ClInclude Include="src\application\Application.h">
       <Filter>Asteroids\Application</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>Asteroids\PCH</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core.h">
+    <ClInclude Include="src\application\Core.h">
       <Filter>Asteroids\Application</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene.h">
+    <ClInclude Include="src\scenes\Scene.h">
       <Filter>Asteroids\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="src\SceneManager.h">
+    <ClInclude Include="src\scenes\SceneManager.h">
       <Filter>Asteroids\Scenes\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="src\SceneMainMenu.h">
+    <ClInclude Include="src\scenes\SceneMainMenu.h">
       <Filter>Asteroids\Scenes\MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="src\Components.h">
+    <ClInclude Include="src\components\Components.h">
       <Filter>Asteroids\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\Systems.h">
+    <ClInclude Include="src\systems\Systems.h">
       <Filter>Asteroids\ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="src\vector_utils.h">
+    <ClInclude Include="src\utils\Vector.h">
       <Filter>Asteroids\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Ship.h">
+    <ClInclude Include="src\prefabs\Ship.h">
       <Filter>Asteroids\ECS\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bullet.h">
+    <ClInclude Include="src\prefabs\Bullet.h">
       <Filter>Asteroids\ECS\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\prefabs\Asteroid.h">
+      <Filter>Asteroids\ECS\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Random.h">
+      <Filter>Asteroids\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\RawData.h">
+      <Filter>Asteroids\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,13 @@
 #include "pch.h"
 #include "Core.h"
 #include "Application.h"
-#include "SceneMainMenu.h"
+#include "scenes/SceneMainMenu.h"
+#include "utils/Random.h"
 
 void ast::Application::Run()
 {
+	InitializeRandomSystem();
+
 	CreateWindow();
 
 	CreateView();
@@ -50,6 +53,11 @@ void ast::Application::Update(float dt)
 void ast::Application::Render()
 {
 	m_SceneManager.Render(*m_Window);
+}
+
+void ast::Application::InitializeRandomSystem()
+{
+	rand.seed(std::random_device{}());
 }
 
 void ast::Application::CreateScenes()
@@ -103,7 +111,5 @@ void ast::Application::CreateWindow()
 	m_Window = new sf::RenderWindow(sf::VideoMode(WindowWidth, WindowHeight), 
 		                            WindowTitle, sf::Style::Default, Settings);
 
-	m_Window->setFramerateLimit(144);
-	m_Window->setKeyRepeatEnabled(false);
 	m_Window->setVerticalSyncEnabled(true);
 }

@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "SceneMainMenu.h"
-#include "Components.h"
-#include "Systems.h"
-#include "Ship.h"
+#include "components/Components.h"
+#include "systems/Systems.h"
+#include "prefabs/Asteroid.h"
+#include "prefabs/Ship.h"
 
 void ast::SceneMainMenu::Initialize()
 {
-	CreateShip(registry, ShipForm::Standard, sf::Color::Green, true);
+	CreateShip(registry, ShipForm::Starrogue, sf::Color::Yellow, false);
 }
 
 void ast::SceneMainMenu::PollEvents(const sf::Event& event)
@@ -16,6 +17,10 @@ void ast::SceneMainMenu::PollEvents(const sf::Event& event)
 
 void ast::SceneMainMenu::Update(float dt)
 {
+	ShootingSystem(registry, dt);
+
+	DestroyOnBounds(registry);
+
 	PhysicsSystem(registry, dt);
 }
 

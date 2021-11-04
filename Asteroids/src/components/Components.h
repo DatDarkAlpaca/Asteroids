@@ -1,11 +1,13 @@
 #pragma once
 #include "pch.h"
+#include "RawData.h"
 
 namespace ast
 {
 	struct Position
 	{
 		Position(sf::Vector2f& position) : position(position) { }
+		
 		Position() = default;
 
 		operator sf::Vector2f& () { return position; }
@@ -16,6 +18,7 @@ namespace ast
 	struct Rotation
 	{
 		Rotation(float rotation) : rotation(rotation) { }
+		
 		Rotation() = default;
 
 		operator float () { return rotation; }
@@ -25,6 +28,7 @@ namespace ast
 	struct Scale
 	{
 		Scale(sf::Vector2f& scale) : scale(scale) { }
+		
 		Scale() = default;
 
 		operator sf::Vector2f() { return scale; }
@@ -34,6 +38,7 @@ namespace ast
 	struct Shape
 	{
 		Shape(sf::VertexArray& vertices) : shape(vertices) { }
+		
 		Shape() = default;
 
 		operator sf::VertexArray& () { return shape; }
@@ -46,10 +51,12 @@ namespace ast
 
 	struct Kinematics
 	{
-		Kinematics(float speed = 0.f, float maxSpeed = 0.f, float minSpeed = 0.f, 
-			       float acceleration = 0.f, float drag = 0.f, float angularSpeed = 0.f)
-			: speed(speed), acceleration(acceleration), drag(drag), angularSpeed(angularSpeed), maxSpeed(maxSpeed),
-			minSpeed(minSpeed) { }
+		Kinematics(float speed = 0.f, float minSpeed = 0.f, float maxSpeed = 0.f, float acceleration = 0.f, float drag = 0.f, float angularSpeed = 0.f, const sf::Vector2f& direction = sf::Vector2f(0, 0)) :
+			speed(speed), acceleration(acceleration), drag(drag), angularSpeed(angularSpeed), 
+			maxSpeed(maxSpeed), minSpeed(minSpeed) 
+		{
+			velocity = direction * speed;
+		}
 
 		Kinematics() = default;
 
@@ -68,8 +75,36 @@ namespace ast
 	struct Shooting
 	{
 		Shooting(float cooldown) : cooldownMax(cooldown) { }
+		
 		Shooting() = default;
 
 		float cooldown = 0.f, cooldownMax;
+	};
+
+	struct Hitbox
+	{
+		Hitbox(sf::FloatRect& localBounds)
+			: localBounds(localBounds) { }
+
+		Hitbox() = default;
+
+		inline sf::FloatRect globalBounds(const sf::Transform& transform) 
+		{ 
+			return transform.transformRect(localBounds); 
+		}
+		inline float size(const sf::Transform& transform) 
+		{
+			return std::min(globalBounds(transform).width / 2, globalBounds(transform).height / 2);
+		}
+
+		sf::FloatRect localBounds;
+	};
+
+	struct DestoyOnBounds
+	{
+		DestoyOnBounds(float left, float right, float top, float bottom)
+			: right(right), left(left), top(top), bottom(bottom) { }
+
+		float right, left, top, bottom;
 	};
 }

@@ -14,10 +14,10 @@
     <Font Include="res\free-pixel.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\SceneMainMenu.cpp" />
-    <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\scenes\SceneMainMenu.cpp" />
+    <ClCompile Include="src\scenes\SceneManager.cpp" />
+    <ClCompile Include="src\application\Application.cpp" />
+    <ClCompile Include="src\application\Core.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -27,20 +27,23 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\Systems.cpp" />
+    <ClCompile Include="src\systems\Systems.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Bullet.h" />
-    <ClInclude Include="src\Ship.h" />
-    <ClInclude Include="src\SceneMainMenu.h" />
-    <ClInclude Include="src\SceneManager.h" />
-    <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\components\RawData.h" />
+    <ClInclude Include="src\utils\Random.h" />
+    <ClInclude Include="src\prefabs\Asteroid.h" />
+    <ClInclude Include="src\prefabs\Bullet.h" />
+    <ClInclude Include="src\prefabs\Ship.h" />
+    <ClInclude Include="src\scenes\SceneMainMenu.h" />
+    <ClInclude Include="src\scenes\SceneManager.h" />
+    <ClInclude Include="src\scenes\Scene.h" />
+    <ClInclude Include="src\application\Application.h" />
+    <ClInclude Include="src\application\Core.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\Components.h" />
-    <ClInclude Include="src\Systems.h" />
-    <ClInclude Include="src\vector_utils.h" />
+    <ClInclude Include="src\components\Components.h" />
+    <ClInclude Include="src\systems\Systems.h" />
+    <ClInclude Include="src\utils\Vector.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -80,13 +83,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)vendor\entt\include;$(ProjectDir)include\**;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)vendor\entt\include;$(ProjectDir)include\**;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -94,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\libraries\SFML-2.5.1-x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\libraries\SFML-2.5.1-x64\include;$(ProjectDir)vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -114,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\libraries\SFML-2.5.1-x64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\libraries\SFML-2.5.1-x64\include;$(ProjectDir)vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>

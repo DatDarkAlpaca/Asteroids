@@ -1,13 +1,14 @@
 #pragma once
 #include "pch.h"
-#include "Components.h"
+#include "components/Components.h"
 
 namespace ast
 {
 	enum class ShipForm
 	{
 		Standard = 0,
-		Starrogue
+		Starrogue,
+		Lemon
 	};
 
 	namespace
@@ -18,7 +19,7 @@ namespace ast
 				: vertices(vertices), origin(origin) { }
 
 			sf::VertexArray vertices;
-			sf::Vector2f origin;
+			sf::Vector2f origin, tip;
 		};
 	
 		static ShapeOriginPack determineShipShape(ShipForm form, bool fill)
@@ -56,6 +57,19 @@ namespace ast
 					vertices[6].position = { 0, 0 };
 					break;
 				}
+
+				case ShipForm::Lemon: {
+					vertices.resize(7);
+
+					vertices[0].position = { 0, 0 };
+					vertices[1].position = { -10, 10 };
+					vertices[2].position = { -10, 20 };
+					vertices[3].position = { 0, 30 };
+					vertices[4].position = { 10, 20 };
+					vertices[5].position = { 10, 10 };
+					vertices[6].position = { 0, 0 };
+
+				}
 			}
 
 			// Determine the origin:
@@ -71,6 +85,11 @@ namespace ast
 					origin = { 0, 10 };
 					break;
 				}
+
+				case ShipForm::Lemon: {
+					origin = { 0, 15 };
+					break;
+				}
 			}
 
 			return ShapeOriginPack(vertices, origin);
@@ -81,8 +100,8 @@ namespace ast
 	{
 		auto player = registry.create();
 
-		registry.emplace<Kinematics>(player, 0.f, 150.f, -150.f, -350.f, 150.f, 200.f);
-		registry.emplace<Shooting>(player, 0.2f);
+		registry.emplace<Kinematics>(player, 0.f, -100.f, 100.f, -350.f, 150.f, 200.f);
+		registry.emplace<Shooting>(player, 0.15f);
 		registry.emplace<Rotation>(player);
 		registry.emplace<Input>(player);
 		registry.emplace<Scale>(player);
@@ -93,6 +112,7 @@ namespace ast
 
 		// Shape:
 		ShapeOriginPack shipPack = determineShipShape(form, fill);
+		sf::FloatRect bounds = shipPack.vertices.getBounds();
 		
 		// Color:
 		for (size_t i = 0; i < shipPack.vertices.getVertexCount(); ++i)
@@ -104,6 +124,7 @@ namespace ast
 
 		// Shape Component:
 		registry.emplace<Shape>(player, shipShape);
+		registry.emplace<Hitbox>(player, bounds);
 
 		return player;
 	}

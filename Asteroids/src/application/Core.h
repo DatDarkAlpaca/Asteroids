@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ast 
+namespace ast
 {
 	extern unsigned int WindowHeight, WindowWidth;
 	extern sf::String WindowTitle;

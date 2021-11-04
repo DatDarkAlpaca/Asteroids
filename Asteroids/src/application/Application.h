@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "SceneManager.h"
+#include "scenes/SceneManager.h"
 
 namespace ast {
 
@@ -17,6 +17,8 @@ namespace ast {
 		void Render();
 
 	private:
+		void InitializeRandomSystem();
+
 		void CreateScenes();
 
 		sf::View& AdjustLetterboxView(sf::View& view, int windowWidth, int windowHeight);
