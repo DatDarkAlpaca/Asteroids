@@ -23,6 +23,8 @@ void ast::SceneMainMenu::Update(float dt)
 
 	DestroyOnBounds(registry);
 
+	StayOnBounds(registry);
+
 	PhysicsSystem(registry, dt);
 }
 

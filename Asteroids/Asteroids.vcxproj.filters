@@ -37,6 +37,9 @@
     <Filter Include="Asteroids\Utils">
       <UniqueIdentifier>{a3e7af64-a4e1-472e-b5fc-f9af8181caf9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\GUI">
+      <UniqueIdentifier>{81d4889d-73f6-41d7-9cad-4936bdf3697d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">

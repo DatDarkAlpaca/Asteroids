@@ -11,6 +11,8 @@ namespace ast
 
 	void ShootingSystem(entt::registry& registry, float dt);
 
+	void StayOnBounds(entt::registry& registry);
+
 	// NPC:
 	void DestroyOnBounds(entt::registry& registry);
 

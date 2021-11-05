@@ -58,6 +58,26 @@ void ast::ShootingSystem(entt::registry& registry, float dt)
 	}
 }
 
+void ast::StayOnBounds(entt::registry& registry)
+{
+	auto shipView = registry.view<StayInBounds, Position, Kinematics>();
+
+	for (auto&& [entity, stay, position, kinematics] : shipView.each())
+	{
+		if (position.position.x <= stay.left && kinematics.velocity.x < 0)
+			position.position = { stay.right, position.position.y };
+
+		if (position.position.x > stay.right && kinematics.velocity.x > 0)
+			position.position = { stay.left, position.position.y };
+
+		if (position.position.y <= stay.top && kinematics.velocity.y < 0)
+			position.position = { position.position.x, stay.bottom };
+
+		if (position.position.y > stay.bottom && kinematics.velocity.y > 0)
+			position.position = { position.position.x, stay.top };
+	}
+}
+
 // NPC Systems:
 void ast::DestroyOnBounds(entt::registry& registry)
 {
@@ -76,24 +96,6 @@ void ast::DestroyOnBounds(entt::registry& registry)
 
 		if (position.position.y > destroy.bottom)
 			registry.destroy(entity);
-	}
-
-	// Todo: move to a bound system:
-	auto shipView = registry.view<StayInBounds, Position, Kinematics>();
-
-	for (auto&& [entity, stay, position, kinematics] : shipView.each())
-	{
-		if (position.position.x <= stay.left && kinematics.velocity.x < 0)
-			position.position = { stay.right, position.position.y };
-
-		if (position.position.x > stay.right && kinematics.velocity.x > 0)
-			position.position = { stay.left, position.position.y };
-
-		if (position.position.y <= stay.top && kinematics.velocity.y < 0)
-			position.position = { position.position.x, stay.bottom };
-
-		if (position.position.y > stay.bottom && kinematics.velocity.y > 0)
-			position.position = { position.position.x, stay.top };
 	}
 }
 

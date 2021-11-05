@@ -115,12 +115,12 @@ void ast::Application::CreateWindow()
 		m_Window.close();
 
 	sf::ContextSettings Settings;
-	Settings.antialiasingLevel = 0;
+	Settings.antialiasingLevel = 8;
 
 	if(!m_Fullscreen)
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
-		            WindowTitle, sf::Style::Resize + sf::Style::Close, Settings);
+		                WindowTitle, sf::Style::Titlebar, Settings);
 	else
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
-			WindowTitle, sf::Style::Fullscreen, Settings);
+			            WindowTitle, sf::Style::Fullscreen, Settings);
 }
