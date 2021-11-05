@@ -49,7 +49,7 @@ void ast::Application::Render()
 {
 	m_Window.clear();
 
-	//m_Window.setView(m_MainView);
+	m_Window.setView(m_MainView);
 	
 	m_SceneManager.Render(m_Window);
 

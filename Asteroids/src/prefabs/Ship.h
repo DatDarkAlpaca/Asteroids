@@ -22,7 +22,7 @@ namespace ast
 			sf::Vector2f origin, tip;
 		};
 	
-		static ShapeOriginPack determineShipShape(ShipForm form, bool fill)
+		static ShapeOriginPack determineShipShape(const ShipForm& form, bool fill, const sf::Color& color)
 		{
 			// Determine the form:
 			sf::VertexArray vertices;
@@ -32,6 +32,7 @@ namespace ast
 			else
 				vertices.setPrimitiveType(sf::PrimitiveType::LineStrip);
 
+			// Determine the shape:
 			switch (form)
 			{
 				case ShipForm::Standard: {
@@ -72,6 +73,10 @@ namespace ast
 				}
 			}
 
+			// Determine the color:
+			for (size_t i = 0; i < vertices.getVertexCount(); ++i)
+				vertices[i].color = color;
+
 			// Determine the origin:
 			sf::Vector2f origin;
 			switch (form)
@@ -96,7 +101,7 @@ namespace ast
 		}
 	}
 
-	entt::entity CreateShip(entt::registry& registry, ShipForm form = ShipForm::Standard, sf::Color color = sf::Color::White, bool fill = false)
+	entt::entity CreateShip(entt::registry& registry, const ShipForm& form = ShipForm::Standard, sf::Color color = sf::Color::White, bool fill = false)
 	{
 		auto player = registry.create();
 
@@ -111,17 +116,13 @@ namespace ast
 		registry.emplace<Position>(player, position);
 
 		// Shape:
-		ShapeOriginPack shipPack = determineShipShape(form, fill);
+		ShapeOriginPack shipPack = determineShipShape(form, fill, color);
 		sf::FloatRect bounds = shipPack.vertices.getBounds();
 
 		// Origin:
 		Shape shipShape(shipPack.vertices);
 		shipShape.setOrigin(shipPack.origin);
 		
-		// Color:
-		for (size_t i = 0; i < shipPack.vertices.getVertexCount(); ++i)
-			shipPack.vertices[i].color = color;
-
 		// Shape Component:
 		registry.emplace<Shape>(player, shipShape);
 		registry.emplace<Hitbox>(player, bounds);
