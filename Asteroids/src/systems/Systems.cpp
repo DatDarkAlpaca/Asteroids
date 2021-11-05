@@ -77,6 +77,24 @@ void ast::DestroyOnBounds(entt::registry& registry)
 		if (position.position.y > destroy.bottom)
 			registry.destroy(entity);
 	}
+
+	// Todo: move to a bound system:
+	auto shipView = registry.view<StayInBounds, Position, Kinematics>();
+
+	for (auto&& [entity, stay, position, kinematics] : shipView.each())
+	{
+		if (position.position.x <= stay.left && kinematics.velocity.x < 0)
+			position.position = { stay.right, position.position.y };
+
+		if (position.position.x > stay.right && kinematics.velocity.x > 0)
+			position.position = { stay.left, position.position.y };
+
+		if (position.position.y <= stay.top && kinematics.velocity.y < 0)
+			position.position = { position.position.x, stay.bottom };
+
+		if (position.position.y > stay.bottom && kinematics.velocity.y > 0)
+			position.position = { position.position.x, stay.top };
+	}
 }
 
 // Physics Systems:
@@ -98,17 +116,25 @@ void ast::BrakeSystem(entt::registry& registry, float dt, float multiplier)
 	for (auto&& [entity, kinematics, rotation] : view.each())
 	{
 		auto& velocity = kinematics.velocity;
-		const auto drag = kinematics.drag;
+		const auto multipliedDrag = kinematics.drag * dt * multiplier;
 
+		// Applying drag:
 		if (velocity.y > 0)
-			velocity += { 0, -drag * dt * multiplier };
+			velocity -= { 0, multipliedDrag };
 		else if (velocity.y < 0)
-			velocity += { 0, drag * dt * multiplier };
+			velocity += { 0, multipliedDrag };
 
 		if (velocity.x > 0)
-			velocity += { -drag * dt * multiplier, 0 };
+			velocity -= { multipliedDrag, 0 };
+
 		else if (velocity.x < 0)
-			velocity += { drag * dt * multiplier, 0};
+			velocity += { multipliedDrag, 0};
+
+		// Normalizing:
+		if (velocity.x > -0.001f && velocity.x < 0.001f)
+			velocity.x = 0.f;
+		if (velocity.y > -0.001f && velocity.y < 0.001f)
+			velocity.y = 0.f;
 	}
 }
 

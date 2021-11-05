@@ -3,7 +3,7 @@
 
 namespace ast {
 
-	unsigned int WindowWidth = 800;
-	unsigned int WindowHeight = 600;
+	unsigned int WorldWidth = 960;
+	unsigned int WorldHeight = 540;
 	sf::String WindowTitle = "Asteroids";
 }

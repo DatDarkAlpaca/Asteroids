@@ -13,5 +13,8 @@ namespace ast
 		virtual void Update(float dt) override;
 
 		virtual void Render(sf::RenderWindow& window) override;
+
+	private:
+		sf::RectangleShape back;
 	};
 }

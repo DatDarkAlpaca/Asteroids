@@ -8,6 +8,8 @@
 void ast::SceneMainMenu::Initialize()
 {
 	CreateShip(registry, ShipForm::Standard, sf::Color::White, false);
+	back.setFillColor(sf::Color(10, 10, 10, 255));
+	back.setSize({ 2000, 2000 });
 }
 
 void ast::SceneMainMenu::PollEvents(const sf::Event& event)
@@ -26,5 +28,7 @@ void ast::SceneMainMenu::Update(float dt)
 
 void ast::SceneMainMenu::Render(sf::RenderWindow& window)
 {
+	window.draw(back);
+
 	RenderSystem(registry, window);
 }

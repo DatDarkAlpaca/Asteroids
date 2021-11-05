@@ -50,8 +50,11 @@ namespace ast
 		registry.emplace<Rotation>(bullet);
 		
 		// Destoy:
-		registry.emplace<DestoyOnBounds>(bullet, -data.radius * 2, WindowWidth + data.radius * 2, -data.radius,
-			                             WindowHeight - data.radius * 2);
+		registry.emplace<DestoyOnBounds>(bullet, 
+										-data.radius * 2, 
+										 WorldWidth + data.radius * 2,
+										-data.radius,
+									    WorldHeight - data.radius * 2);
 
 		return bullet;
 	}

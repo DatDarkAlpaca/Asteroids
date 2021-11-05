@@ -127,6 +127,12 @@ namespace ast
 		registry.emplace<Shape>(player, shipShape);
 		registry.emplace<Hitbox>(player, bounds);
 
+		registry.emplace<StayInBounds>(player, -bounds.width,  // left
+												WorldWidth + bounds.width, //right 
+			                                   -bounds.height, // top
+			                                    bounds.height + WorldHeight // bottom
+			                           );
+
 		return player;
 	}
 }

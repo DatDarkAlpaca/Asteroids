@@ -107,4 +107,12 @@ namespace ast
 
 		float right, left, top, bottom;
 	};
+
+	struct StayInBounds
+	{
+		StayInBounds(float left, float right, float top, float bottom)
+			: left(left), right(right), top(top), bottom(bottom) { }
+
+		float left, right, top, bottom;
+	};
 }

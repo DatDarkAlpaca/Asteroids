@@ -2,6 +2,6 @@
 
 namespace ast
 {
-	extern unsigned int WindowHeight, WindowWidth;
+	extern unsigned int WorldWidth, WorldHeight;
 	extern sf::String WindowTitle;
 }

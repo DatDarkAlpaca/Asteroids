@@ -12,6 +12,8 @@ void ast::Application::Run()
 
 	CreateScenes();
 	
+	CreateView();
+
 	sf::Clock clock;
 	while (m_Window.isOpen())
 	{
@@ -35,6 +37,12 @@ void ast::Application::PollEvents()
 
 		if (e.type == sf::Event::Resized)
 			m_MainView = ApplyLetterboxView(m_MainView, e.size.width, e.size.height);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F11))
+		{
+			m_Fullscreen = !m_Fullscreen;
+			CreateWindow();
+		}
 
 		m_SceneManager.PollEvents(e);
 	}
@@ -72,10 +80,8 @@ sf::View& ast::Application::ApplyLetterboxView(sf::View view, int windowWidth, i
 {
 	float windowRatio = windowWidth / (float)windowHeight;
 	float viewRatio = view.getSize().x / (float)view.getSize().y;
-	float sizeX = 1;
-	float sizeY = 1;
-	float posX = 0;
-	float posY = 0;
+	float sizeX = 1, sizeY = 1;
+	float posX = 0, posY = 0;
 
 	bool horizontalSpacing = true;
 	if (windowRatio < viewRatio)
@@ -98,9 +104,9 @@ sf::View& ast::Application::ApplyLetterboxView(sf::View view, int windowWidth, i
 
 void ast::Application::CreateView()
 {
-	m_MainView.setSize(WindowWidth, WindowHeight);
+	m_MainView.setSize(WorldWidth, WorldHeight);
 	m_MainView.setCenter(m_MainView.getSize().x / 2, m_MainView.getSize().y / 2);
-	m_MainView = ApplyLetterboxView(m_MainView, WindowWidth, WindowHeight);
+	m_MainView = ApplyLetterboxView(m_MainView, WorldWidth, WorldHeight);
 }
 
 void ast::Application::CreateWindow()
@@ -111,6 +117,10 @@ void ast::Application::CreateWindow()
 	sf::ContextSettings Settings;
 	Settings.antialiasingLevel = 0;
 
-	m_Window.create(sf::VideoMode(WindowWidth, WindowHeight),
+	if(!m_Fullscreen)
+		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
 		            WindowTitle, sf::Style::Resize + sf::Style::Close, Settings);
+	else
+		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
+			WindowTitle, sf::Style::Fullscreen, Settings);
 }

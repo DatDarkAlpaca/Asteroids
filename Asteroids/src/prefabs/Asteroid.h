@@ -76,7 +76,7 @@ namespace ast
                 {
                     x = -(boundOffset + halfWidth);
 
-                    y = RandomInt(-(boundOffset + halfHeight), WindowHeight + boundOffset - halfHeight);
+                    y = RandomInt(-(boundOffset + halfHeight), WorldHeight + boundOffset - halfHeight);
 
 					if (invertVelocity)
 						kinematics.velocity.y *= -1;
@@ -85,9 +85,9 @@ namespace ast
 
                 case SpawnPosition::Right:
                 {
-                    x = WindowWidth + halfWidth + boundOffset;
+                    x = WorldWidth + halfWidth + boundOffset;
 
-                    y = RandomInt(-(boundOffset + halfHeight), WindowHeight + boundOffset - halfHeight);
+                    y = RandomInt(-(boundOffset + halfHeight), WorldHeight + boundOffset - halfHeight);
 
                     if (invertVelocity)
                         kinematics.velocity.y *= -1;
@@ -98,7 +98,7 @@ namespace ast
 
                 case SpawnPosition::Top:
                 {
-                    x = RandomInt(halfWidth, WindowWidth - halfWidth);
+                    x = RandomInt(halfWidth, WorldWidth - halfWidth);
                     y = -(halfHeight + boundOffset);
 
                     if (invertVelocity)
@@ -109,8 +109,8 @@ namespace ast
 
                 case SpawnPosition::Bottom:
                 {
-					x = RandomInt(halfWidth, WindowWidth - halfWidth);
-                    y = WindowHeight + boundOffset + halfHeight;
+					x = RandomInt(halfWidth, WorldWidth - halfWidth);
+                    y = WorldHeight + boundOffset + halfHeight;
 
                     if (invertVelocity)
 						kinematics.velocity.x *= -1;
@@ -157,9 +157,9 @@ namespace ast
 
 		// Destroying:
 		registry.emplace<DestoyOnBounds>(asteroid, -(bounds.width + 30),
-			                             WindowWidth + bounds.width + 30,
+									     WorldWidth + bounds.width + 30,
 			                            -(bounds.height + 30),
-			                             WindowHeight + bounds.height + 30);
+										 WorldHeight + bounds.height + 30);
 
 		return asteroid;
 	}

@@ -21,11 +21,12 @@ namespace ast {
 
 		void CreateScenes();
 
+		void CreateWindow();
+
+	private:
 		sf::View& ApplyLetterboxView(sf::View view, int windowWidth, int windowHeight);
 
 		void CreateView();
-
-		void CreateWindow();
 
 	private:
 		sf::RenderWindow m_Window;
@@ -33,6 +34,9 @@ namespace ast {
 
 	private:
 		SceneManager m_SceneManager;
+
+	private:
+		bool m_Fullscreen = false;
 	};
 
 }
