@@ -6,16 +6,14 @@
 
 void ast::Application::Run()
 {
-	InitializeRandomSystem();
+	InitializeSeed();
 
 	CreateWindow();
 
-	CreateView();
-
 	CreateScenes();
-
+	
 	sf::Clock clock;
-	while (m_Window->isOpen())
+	while (m_Window.isOpen())
 	{
 		float dt = clock.restart().asSeconds();
 
@@ -29,33 +27,36 @@ void ast::Application::Run()
 
 void ast::Application::PollEvents()
 {
-	sf::Event event;
-	while (m_Window->pollEvent(event))
+	sf::Event e;
+	while (m_Window.pollEvent(e))
 	{
-		if (event.type == sf::Event::Closed)
-			m_Window->close();
+		if (e.type == sf::Event::Closed)
+			m_Window.close();
 
-		// Todo: fix it:
-		if (event.type == sf::Event::Resized)
-			m_MainView = AdjustLetterboxView(m_MainView, event.size.width, event.size.height);
-		
-		m_SceneManager.PollEvents(event);
+		if (e.type == sf::Event::Resized)
+			m_MainView = ApplyLetterboxView(m_MainView, e.size.width, e.size.height);
+
+		m_SceneManager.PollEvents(e);
 	}
 }
 
 void ast::Application::Update(float dt)
 {
-	// m_Window->setView(m_MainView);
-
 	m_SceneManager.Update(dt);
 }
 
 void ast::Application::Render()
 {
-	m_SceneManager.Render(*m_Window);
+	m_Window.clear();
+
+	//m_Window.setView(m_MainView);
+	
+	m_SceneManager.Render(m_Window);
+
+	m_Window.display();
 }
 
-void ast::Application::InitializeRandomSystem()
+void ast::Application::InitializeSeed()
 {
 	rand.seed(std::random_device{}());
 }
@@ -67,49 +68,49 @@ void ast::Application::CreateScenes()
 	m_SceneManager.SelectScene(SceneType::MainMenu);
 }
 
-sf::View& ast::Application::AdjustLetterboxView(sf::View& view, int windowWidth, int windowHeight)
+sf::View& ast::Application::ApplyLetterboxView(sf::View view, int windowWidth, int windowHeight)
 {
-	float currentRatio = float(windowWidth / windowHeight);
+	float windowRatio = windowWidth / (float)windowHeight;
 	float viewRatio = view.getSize().x / (float)view.getSize().y;
+	float sizeX = 1;
+	float sizeY = 1;
+	float posX = 0;
+	float posY = 0;
 
-	bool horizontalSpacing = currentRatio >= viewRatio;
+	bool horizontalSpacing = true;
+	if (windowRatio < viewRatio)
+		horizontalSpacing = false;
 
-	float sizeX = 1.f, sizeY = 1.f;
-	float positionX = 0.f, positionY = 0.f;
-
-	if (horizontalSpacing)
-	{
-		sizeX = viewRatio / currentRatio;
-		positionX = (1 - sizeX) / 2.f;
-	}
-	else
-	{
-		sizeY = currentRatio / viewRatio;
-		positionY = (1 - sizeY) / 2.f;
+	if (horizontalSpacing) {
+		sizeX = viewRatio / windowRatio;
+		posX = (1 - sizeX) / 2.f;
 	}
 
-	view.setViewport(sf::FloatRect({ positionX, positionY }, { sizeX, sizeY }));
+	else {
+		sizeY = windowRatio / viewRatio;
+		posY = (1 - sizeY) / 2.f;
+	}
+
+	view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
 
 	return view;
 }
 
 void ast::Application::CreateView()
 {
-	m_MainView.setSize((float)WindowWidth, (float)WindowHeight);
+	m_MainView.setSize(WindowWidth, WindowHeight);
 	m_MainView.setCenter(m_MainView.getSize().x / 2, m_MainView.getSize().y / 2);
-	m_MainView = AdjustLetterboxView(m_MainView, WindowWidth, WindowHeight);
+	m_MainView = ApplyLetterboxView(m_MainView, WindowWidth, WindowHeight);
 }
 
 void ast::Application::CreateWindow()
 {
-	if (m_Window != nullptr && m_Window->isOpen())
-		m_Window->close();
+	if (m_Window.isOpen())
+		m_Window.close();
 
 	sf::ContextSettings Settings;
-	Settings.antialiasingLevel = 8;
+	Settings.antialiasingLevel = 0;
 
-	m_Window = new sf::RenderWindow(sf::VideoMode(WindowWidth, WindowHeight), 
-		                            WindowTitle, sf::Style::Default, Settings);
-
-	m_Window->setVerticalSyncEnabled(true);
+	m_Window.create(sf::VideoMode(WindowWidth, WindowHeight),
+		            WindowTitle, sf::Style::Resize + sf::Style::Close, Settings);
 }

@@ -17,18 +17,18 @@ namespace ast {
 		void Render();
 
 	private:
-		void InitializeRandomSystem();
+		void InitializeSeed();
 
 		void CreateScenes();
 
-		sf::View& AdjustLetterboxView(sf::View& view, int windowWidth, int windowHeight);
+		sf::View& ApplyLetterboxView(sf::View view, int windowWidth, int windowHeight);
 
 		void CreateView();
 
 		void CreateWindow();
 
 	private:
-		sf::RenderWindow* m_Window;
+		sf::RenderWindow m_Window;
 		sf::View m_MainView;
 
 	private:

@@ -113,14 +113,14 @@ namespace ast
 		// Shape:
 		ShapeOriginPack shipPack = determineShipShape(form, fill);
 		sf::FloatRect bounds = shipPack.vertices.getBounds();
-		
-		// Color:
-		for (size_t i = 0; i < shipPack.vertices.getVertexCount(); ++i)
-			shipPack.vertices[i].color = color;
 
 		// Origin:
 		Shape shipShape(shipPack.vertices);
 		shipShape.setOrigin(shipPack.origin);
+		
+		// Color:
+		for (size_t i = 0; i < shipPack.vertices.getVertexCount(); ++i)
+			shipPack.vertices[i].color = color;
 
 		// Shape Component:
 		registry.emplace<Shape>(player, shipShape);

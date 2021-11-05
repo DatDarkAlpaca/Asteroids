@@ -100,14 +100,14 @@ void ast::BrakeSystem(entt::registry& registry, float dt, float multiplier)
 		auto& velocity = kinematics.velocity;
 		const auto drag = kinematics.drag;
 
-		if (velocity.y >= 0)
+		if (velocity.y > 0)
 			velocity += { 0, -drag * dt * multiplier };
-		else
+		else if (velocity.y < 0)
 			velocity += { 0, drag * dt * multiplier };
 
-		if (velocity.x >= 0)
+		if (velocity.x > 0)
 			velocity += { -drag * dt * multiplier, 0 };
-		else
+		else if (velocity.x < 0)
 			velocity += { drag * dt * multiplier, 0};
 	}
 }
@@ -125,7 +125,7 @@ void ast::VelocityClampSystem(entt::registry& registry)
 		if (velocity.x >= maxSpeed)
 			velocity.x = maxSpeed;
 		
-		if(velocity.x <= minSpeed)
+		if (velocity.x <= minSpeed)
 			velocity.x = minSpeed;
 
 		if (velocity.y >= maxSpeed)

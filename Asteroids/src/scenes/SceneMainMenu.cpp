@@ -7,7 +7,7 @@
 
 void ast::SceneMainMenu::Initialize()
 {
-	CreateShip(registry, ShipForm::Starrogue, sf::Color::Yellow, false);
+	CreateShip(registry, ShipForm::Standard, sf::Color::White, false);
 }
 
 void ast::SceneMainMenu::PollEvents(const sf::Event& event)
@@ -26,9 +26,5 @@ void ast::SceneMainMenu::Update(float dt)
 
 void ast::SceneMainMenu::Render(sf::RenderWindow& window)
 {
-	window.clear();
-
 	RenderSystem(registry, window);
-
-	window.display();
 }
