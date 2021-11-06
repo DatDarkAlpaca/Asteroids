@@ -17,18 +17,57 @@ void ast::SceneMainMenu::Initialize()
 	m_Background.setSize({ (float)WorldWidth, (float)WorldHeight });
 
 	// Alpha:
-	auto alpha = std::make_shared<gui::Label>("version 0.1s", *m_Font);
+	auto alpha = std::make_shared<gui::Label>("version 0.1s", *m_Font, 18);
 	alpha->setPosition({ 0, (float)WorldHeight - alpha->getText().getGlobalBounds().height * 2 });
 
 	// Title:
 	auto titleBar = std::make_shared<gui::Label>("Asteroids", *m_Font, 60);
 	titleBar->setPosition ({
-		(float)WorldWidth / 2 - alpha->getText().getGlobalBounds().width * 2,
+		(float)WorldWidth / 2 - titleBar->getText().getGlobalBounds().width / 2,
 		(float)WorldHeight / 2 - 150
 	});
 
+	// Play button:
+	sf::RectangleShape buttonShape({300, 50});
+	auto play = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	play->SetText("Play");
+	play->setPosition({
+		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
+		(float)WorldHeight / 2
+	});
+
+	// Settings button:
+	auto settings = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	settings->SetText("Settings");
+	settings->setPosition({
+		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
+		(float)WorldHeight / 2 + 50
+	});
+
+	// Workshop button:
+	auto workshop = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	workshop->SetText("Workshop");
+	workshop->setPosition({
+		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
+		(float)WorldHeight / 2 + 100
+	});
+
+	// Exit button:
+	auto exit = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	exit->SetText("Exit");
+	exit->setPosition({
+		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
+		(float)WorldHeight / 2 + 150
+	});
+	exit->SetCallback([this]() { std::cout << "Implement the exit mechanism bitch\n"; });
+
 	m_MainContainer.Pack(alpha);
 	m_MainContainer.Pack(titleBar);
+
+	m_MainContainer.Pack(play);
+	m_MainContainer.Pack(settings);
+	m_MainContainer.Pack(workshop);
+	m_MainContainer.Pack(exit);
 }
 
 void ast::SceneMainMenu::PollEvents(const sf::Event& event)
