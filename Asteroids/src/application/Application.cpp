@@ -119,7 +119,7 @@ void ast::Application::CreateWindow()
 
 	if(!m_Fullscreen)
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
-		                WindowTitle, sf::Style::Titlebar, Settings);
+		                WindowTitle, sf::Style::Titlebar + sf::Style::Resize, Settings);
 	else
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
 			            WindowTitle, sf::Style::Fullscreen, Settings);

@@ -40,6 +40,18 @@
     <Filter Include="Asteroids\GUI">
       <UniqueIdentifier>{81d4889d-73f6-41d7-9cad-4936bdf3697d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\GUI\Widget">
+      <UniqueIdentifier>{b5858397-fe5b-4f6c-b18e-14606faeb161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\GUI\Label">
+      <UniqueIdentifier>{ee27b071-a1fa-4df6-b288-a4e8890589df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\GUI\Button">
+      <UniqueIdentifier>{64c9938e-4870-4e2a-929c-4fb61729eaab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\GUI\Container">
+      <UniqueIdentifier>{522829e8-c796-4cbf-8aa6-1afcd162a51b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">
@@ -62,6 +74,12 @@
     </ClCompile>
     <ClCompile Include="src\systems\Systems.cpp">
       <Filter>Asteroids\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\container\Container.cpp">
+      <Filter>Asteroids\GUI\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\button\Button.cpp">
+      <Filter>Asteroids\GUI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +124,24 @@
     </ClInclude>
     <ClInclude Include="src\components\RawData.h">
       <Filter>Asteroids\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\Widget.h">
+      <Filter>Asteroids\GUI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\container\Container.h">
+      <Filter>Asteroids\GUI\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\button\Button.h">
+      <Filter>Asteroids\GUI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\label\Label.h">
+      <Filter>Asteroids\GUI\Label</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Utilities.h">
+      <Filter>Asteroids\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GUI.h">
+      <Filter>Asteroids\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

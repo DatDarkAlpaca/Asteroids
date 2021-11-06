@@ -3,8 +3,8 @@
 
 int main()
 {
-	ast::Application app;
-	app.Run();
+	ast::Application application;
+	application.Run();
 
 	return 0;
 }

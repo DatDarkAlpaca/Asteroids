@@ -14,6 +14,8 @@
     <Font Include="res\free-pixel.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\gui\button\Button.cpp" />
+    <ClCompile Include="src\gui\container\Container.cpp" />
     <ClCompile Include="src\scenes\SceneMainMenu.cpp" />
     <ClCompile Include="src\scenes\SceneManager.cpp" />
     <ClCompile Include="src\application\Application.cpp" />
@@ -30,6 +32,10 @@
     <ClCompile Include="src\systems\Systems.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\gui\button\Button.h" />
+    <ClInclude Include="src\gui\container\Container.h" />
+    <ClInclude Include="src\gui\GUI.h" />
+    <ClInclude Include="src\gui\label\Label.h" />
     <ClInclude Include="src\components\RawData.h" />
     <ClInclude Include="src\utils\Random.h" />
     <ClInclude Include="src\prefabs\Asteroid.h" />
@@ -43,7 +49,9 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\components\Components.h" />
     <ClInclude Include="src\systems\Systems.h" />
+    <ClInclude Include="src\utils\Utilities.h" />
     <ClInclude Include="src\utils\Vector.h" />
+    <ClInclude Include="src\gui\Widget.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
