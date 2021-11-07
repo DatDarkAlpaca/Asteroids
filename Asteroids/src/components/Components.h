@@ -9,6 +9,8 @@ namespace ast
 
 	struct Asteroid { char id; };
 
+	struct Ship { char id; };
+
 	// Transformable:
 	struct Transformable
 	{
@@ -18,7 +20,7 @@ namespace ast
 	// Shape:
 	struct Shape
 	{
-		Shape(sf::VertexArray& vertices) : shape(vertices) { }
+		Shape(const sf::VertexArray& vertices) : shape(vertices) { }
 		
 		Shape() = default;
 
@@ -63,24 +65,54 @@ namespace ast
 		sf::Vector2f velocity = { 0.f, 0.f };
 		float speed, acceleration, drag, angularSpeed, maxSpeed, minSpeed;
 	};
+	
+	class HitboxShape : public sf::RectangleShape
+	{
+	public:
+		HitboxShape() { create(); }
+
+	public:
+		void update(sf::Vector2f position, float rotation)
+		{
+			setPosition({ position.x, position.y });
+			setRotation(rotation);
+		}
+
+		// Todo: disable on release:
+		void create()
+		{
+			setOutlineColor(sf::Color::Green);
+			setFillColor(sf::Color::Transparent);
+			setOutlineThickness(1);
+		}
+	};
 
 	struct Hitbox
 	{
-		Hitbox(sf::FloatRect& localBounds)
-			: localBounds(localBounds) { }
-
-		Hitbox() = default;
-
-		inline sf::FloatRect globalBounds(const sf::Transform& transform) 
+		Hitbox(const sf::Vector2f& rect, const sf::Vector2f& origin) : hitbox() 
 		{ 
-			return transform.transformRect(localBounds); 
-		}
-		inline float size(const sf::Transform& transform) 
-		{
-			return std::min(globalBounds(transform).width / 2, globalBounds(transform).height / 2);
+			hitbox.setSize(rect);
+			hitbox.setOrigin(origin);
 		}
 
-		sf::FloatRect localBounds;
+		HitboxShape hitbox;
+
+		bool enabled = true;
+	};
+
+	// Asteroid:
+	struct MayFollow
+	{
+		bool follow = RandomBool();
+	};
+
+	struct AsteroidSize
+	{
+		AsteroidSize(int size) : size(size) { }
+
+		AsteroidSize() = default;
+
+		int size = 3;
 	};
 
 	// Border factors:

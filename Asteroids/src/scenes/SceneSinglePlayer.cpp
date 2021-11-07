@@ -3,7 +3,7 @@
 
 void ast::SceneSinglePlayer::Initialize()
 {
-	CreateShip(registry, ShipForm::Standard, sf::Color::White, true);
+	CreateShip(registry, ShipForm::Starrogue, sf::Color(200, 0, 100), true);
 
 	// FPS Label Clock:
 	m_SceneTimer.SetTime(0.3f);
@@ -39,7 +39,7 @@ void ast::SceneSinglePlayer::Update(float dt)
 
 	if (m_AsteroidTimer.IsDone())
 	{
-		CreateAsteroid(registry, regularAsteroid, 3);
+		AsteroidFactory::SpawnAsteroid(registry, regularAsteroid, 3);
 		m_AsteroidTimer.Restart();
 	}
 

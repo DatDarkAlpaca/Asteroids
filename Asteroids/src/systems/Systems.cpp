@@ -6,30 +6,15 @@
 
 void ast::RenderSystem(entt::registry& registry, sf::RenderWindow& window)
 {
+	// Draw Entities:
 	auto view = registry.view<Transformable, Shape>();
-
 	for (auto&& [entity, transformable, shape] : view.each())
-	{
 		window.draw(shape, transformable.transformable.getTransform());
-	}
 
-	auto wireView = registry.view<Transformable, Hitbox>();
-
-	for (auto&& [entity, transformable, hitbox] : wireView.each())
-	{
-		const auto& transform = transformable.transformable.getTransform();
-
-		sf::RectangleShape shape;
-
-		shape.setFillColor(sf::Color::Transparent);
-		shape.setOutlineColor(sf::Color::Green);
-		shape.setOutlineThickness(1);
-
-		shape.setSize({ hitbox.globalBounds(transform).width, hitbox.globalBounds(transform).height });
-		shape.setOrigin({ hitbox.globalBounds(transform).width / 2, hitbox.globalBounds(transform).height / 2  });
-
-		window.draw(shape, transform);
-	}
+	// Others Wireframe:
+	auto wireView = registry.view<Hitbox>();
+	for (auto&& [entity, hitbox] : wireView.each())
+		window.draw(hitbox.hitbox);
 }
 
 // Player Systems:
@@ -110,18 +95,136 @@ void ast::DestroyOnBounds(entt::registry& registry)
 		const auto& x = transf.getPosition().x;
 		const auto& y = transf.getPosition().y;
 
-		if (x < destroy.left)
-			registry.destroy(entity);
+		std::cout << x << " " << y << "\n";
 
-		if (x > destroy.right)
+		if (x < destroy.left)
+		{
 			registry.destroy(entity);
+			break;
+		}
+
+		else if (x > destroy.right)
+		{
+			registry.destroy(entity);
+			break;
+		}
 	
 		if (y < destroy.top)
+		{
 			registry.destroy(entity);
+			break;
+		}
 	
-		if (y > destroy.bottom)
+		else if (y > destroy.bottom)
+		{
 			registry.destroy(entity);
+			break;
+		}
 	}
+}
+
+// TODO: Implement this:
+void ast::FollowPlayerSystem(entt::registry& registry)
+{
+	/*if (!m_followPlayer)
+		return;
+
+	sf::Vector2f dir = playerPos - getPosition();
+	game::normalize(dir);
+
+	using namespace game;
+	physics.velocity.x = dir.x * intDis(gen, param_int_t((int)physics.minSpeed, (int)physics.maxSpeed));
+	physics.velocity.y = dir.y * intDis(gen, param_int_t((int)physics.minSpeed, (int)physics.maxSpeed));*/
+}
+
+void ast::HitboxSystem(entt::registry& registry)
+{
+	auto view = registry.view<Transformable, Hitbox>();
+
+	for (auto&& [entity, transformable, hitbox] : view.each())
+	{
+		auto transf = transformable.transformable;
+		hitbox.hitbox.setPosition(transf.getPosition());
+		hitbox.hitbox.setRotation(transf.getRotation());
+	}
+}
+
+// Collision System:
+void ast::ShipCollisionSystem(entt::registry& registry)
+{
+	auto shipView = registry.view<Transformable, Hitbox, Ship>();
+	auto asteroidView = registry.view<Transformable, Kinematics, Hitbox, AsteroidSize>();
+
+	for (auto&& [entityShip, shipTransform, shipHitbox, shipID] : shipView.each())
+	{
+		for (auto&& [entityAsteroid, asteroidTransform, kinematics, asteroidHitbox, asteroidSize] : asteroidView.each())
+		{
+			const auto& bt = shipTransform.transformable.getTransform();
+			const auto& at = asteroidTransform.transformable.getTransform();
+
+			if (shipHitbox.hitbox.getGlobalBounds().intersects(asteroidHitbox.hitbox.getGlobalBounds()))
+			{
+				auto position = asteroidTransform.transformable.getPosition();
+				auto direction = kinematics.velocity / kinematics.speed;
+
+				if (asteroidSize.size > 1)
+				{
+					auto dir0 = sf::Vector2f(direction.x, -direction.y);
+					auto dir1 = sf::Vector2f(-direction.x, direction.y);
+
+					// CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir0);
+					// CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir1);
+				}
+
+				registry.destroy(entityAsteroid);
+
+				break;
+			}
+		}
+	}
+}
+
+void ast::BulletCollisionSystem(entt::registry& registry)
+{
+	auto bulletView = registry.view<Transformable, Hitbox, Bullet>();
+	auto asteroidView = registry.view<Transformable, Kinematics, Hitbox, AsteroidSize>();
+
+	// Bullet-Asteroid collision:
+	for (auto&& [entityBullet, bulletTransform, bulletHitbox, bulletID] : bulletView.each())
+	{
+		for (auto&& [entityAsteroid, asteroidTransform, kinematics, asteroidHitbox, asteroidSize] : asteroidView.each())
+		{
+			const auto& bt = bulletTransform.transformable.getTransform();
+			const auto& at = asteroidTransform.transformable.getTransform();
+
+			if (bulletHitbox.hitbox.getGlobalBounds().intersects(asteroidHitbox.hitbox.getGlobalBounds()))
+			{
+				auto position = asteroidTransform.transformable.getPosition();
+				auto direction = kinematics.velocity / kinematics.speed;
+
+				if (asteroidSize.size > 1)
+				{
+					auto dir0 = sf::Vector2f(direction.x, -direction.y);
+					auto dir1 = sf::Vector2f(-direction.x, direction.y);
+
+					//CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir0);
+					//CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir1);
+				}
+
+				registry.destroy(entityBullet);
+				registry.destroy(entityAsteroid);
+
+				break;
+			}
+		}
+	}
+}
+
+void ast::CollisionSystem(entt::registry& registry)
+{
+	ShipCollisionSystem(registry);
+
+	BulletCollisionSystem(registry);
 }
 
 // Physics Systems:
@@ -190,36 +293,6 @@ void ast::VelocityClampSystem(entt::registry& registry)
 	}
 }
 
-void ast::CollisionSystem(entt::registry& registry)
-{
-	auto bulletView = registry.view<Transformable, Hitbox, Bullet>();
-	auto asteroidView = registry.view<Transformable, Hitbox, AsteroidData>();
-
-	for (auto&& [entityBullet, bulletTransform, bulletHitbox, bulletID] : bulletView.each())
-	{
-		for (auto&& [entityAsteroid, asteroidTransform, asteroidHitbox, asteroidData] : asteroidView.each())
-		{
-			const auto& bt = bulletTransform.transformable.getTransform();
-			const auto& at = asteroidTransform.transformable.getTransform();
-
-			if(bulletHitbox.globalBounds(bt).intersects(asteroidHitbox.globalBounds(at)))
-			{
-				registry.destroy(entityBullet);
-				registry.destroy(entityAsteroid);
-
-				if (asteroidData.size > 1)
-				{
-					auto position = asteroidTransform.transformable.getPosition();
-					
-					CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, 1);
-					CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, 1);
-					break;
-				}
-			}
-		}
-	}
-}
-
 void ast::MoveSystem(entt::registry& registry, float dt)
 {
 	auto view = registry.view<Transformable, Kinematics, Shape>();
@@ -228,7 +301,7 @@ void ast::MoveSystem(entt::registry& registry, float dt)
 	{
 		auto& transf = transformable.transformable;
 		transf.move(kinematics.velocity.x * dt, kinematics.velocity.y * dt);
-	}
+	}	
 }
 
 void ast::RotateSystem(entt::registry& registry, float dt)
@@ -243,6 +316,12 @@ void ast::RotateSystem(entt::registry& registry, float dt)
 	}
 
 	// Todo: npc rotation.
+	auto view = registry.view<Transformable, Kinematics>(entt::exclude<Ship>);
+	for (auto&& [entity, transformable, kinematics] : view.each())
+	{
+		auto& transf = transformable.transformable;
+		transf.rotate(kinematics.angularSpeed * dt);
+	}
 }
 
 void ast::PhysicsSystem(entt::registry& registry, float dt)
@@ -261,7 +340,12 @@ void ast::PhysicsSystem(entt::registry& registry, float dt)
 	VelocityClampSystem(registry);
 
 	CollisionSystem(registry);
+		
+	FollowPlayerSystem(registry);
 
 	RotateSystem(registry, dt);
+	
 	MoveSystem(registry, dt);
+
+	HitboxSystem(registry);
 }

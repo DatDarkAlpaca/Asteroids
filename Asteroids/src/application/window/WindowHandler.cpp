@@ -17,7 +17,7 @@ void ast::WindowHandler::CreateWindow()
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
 			WindowTitle, sf::Style::Fullscreen, Settings);
 
-	m_Window.setFramerateLimit(60);
+    m_Window.setFramerateLimit(60);
 }
 
 ast::WindowHandler::WindowHandler()

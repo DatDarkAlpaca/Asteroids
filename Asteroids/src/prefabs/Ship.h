@@ -103,11 +103,13 @@ namespace ast
 
 	inline entt::entity CreateShip(entt::registry& registry, const ShipForm& form = ShipForm::Standard, sf::Color color = sf::Color::White, bool fill = false)
 	{
-		auto player = registry.create();
+		auto ship = registry.create();
 
-		registry.emplace<Kinematics>(player, 0.f, -100.f, 100.f, -350.f, 150.f, 200.f);
-		registry.emplace<Shooting>(player, 0.15f);
-		registry.emplace<Input>(player);
+		registry.emplace<Kinematics>(ship, 0.f, -100.f, 100.f, -350.f, 150.f, 200.f);
+		registry.emplace<Shooting>(ship, 0.15f);
+		registry.emplace<Input>(ship);
+
+		registry.emplace<Ship>(ship);
 
 		// Shape:
 		ShapeOriginPack shipPack = determineShipShape(form, fill, color);
@@ -115,23 +117,25 @@ namespace ast
 
 		// Starting position:
 		Transformable transformable;
-		transformable.transformable.setPosition({ 200, 200 });
+		transformable.transformable.setPosition({ (float)WorldWidth / 2, (float)WorldHeight / 2 });
 		transformable.transformable.setOrigin(shipPack.origin);
-		registry.emplace<Transformable>(player, transformable);
+		registry.emplace<Transformable>(ship, transformable);
 
 		// Origin:
 		Shape shipShape(shipPack.vertices);
 		
 		// Shape Component:
-		registry.emplace<Shape>(player, shipShape);
-		//registry.emplace<Hitbox>(player, bounds);
+		registry.emplace<Shape>(ship, shipShape);
+		sf::Vector2f shipSize = sf::Vector2f(bounds.width, bounds.height);
+		auto hitboxOrigin = sf::Vector2f(bounds.width / 2, shipPack.origin.y);
+		registry.emplace<Hitbox>(ship, shipSize, hitboxOrigin);
 
-		registry.emplace<StayInBounds>(player, -bounds.width,  // left
-												WorldWidth + bounds.width, //right 
-			                                   -bounds.height, // top
-			                                    bounds.height + WorldHeight // bottom
+		registry.emplace<StayInBounds>(ship, -bounds.width,  // left
+											  WorldWidth + bounds.width, //right 
+			                                 -bounds.height, // top
+			                                  bounds.height + WorldHeight // bottom
 			                           );
 
-		return player;
+		return ship;
 	}
 }

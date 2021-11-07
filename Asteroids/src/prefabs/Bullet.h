@@ -46,16 +46,19 @@ namespace ast
 		Kinematics kinematics(data.speed, -data.speed, data.speed, 0.f, 0.f, 0.f, direction);
 		registry.emplace<Kinematics>(bullet, kinematics);
 
-		// Hitbox:
-		sf::FloatRect bounds = vertices.getBounds();
-		registry.emplace<Hitbox>(bullet, bounds);
-
+		
 		// Transform:
 		Transformable transformable;
 		transformable.transformable.setPosition(position);
-		transformable.transformable.setOrigin({ data.radius / 2, data.radius / 2 });
+		transformable.transformable.setOrigin({ 0, 0 });
 		registry.emplace<Transformable>(bullet, transformable);
-		
+
+		// Hitbox:
+		sf::FloatRect bounds = vertices.getBounds();
+		sf::Vector2f bulletSize = sf::Vector2f(data.radius * 2, data.radius * 2);
+		auto hitboxOrigin = sf::Vector2f(bounds.width / 2, bounds.height / 2);
+		registry.emplace<Hitbox>(bullet, bulletSize, hitboxOrigin);
+
 		// Destoy:
 		registry.emplace<DestoyOnBounds>(bullet, 
 										-data.radius * 2, 
