@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "scenes/SceneManager.h"
+#include "window/WindowHandler.h"
 
 namespace ast {
 
@@ -21,22 +22,9 @@ namespace ast {
 
 		void CreateScenes();
 
-		void CreateWindow();
-
-	private:
-		sf::View& ApplyLetterboxView(sf::View view, int windowWidth, int windowHeight);
-
-		void CreateView();
-
-	private:
-		sf::RenderWindow m_Window;
-		sf::View m_MainView;
-
 	private:
 		SceneManager m_SceneManager;
-
-	private:
-		bool m_Fullscreen = false;
+		WindowHandler m_WindowHandler;
 	};
 
 }

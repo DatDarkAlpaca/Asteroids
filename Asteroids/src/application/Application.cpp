@@ -8,14 +8,10 @@ void ast::Application::Run()
 {
 	InitializeSeed();
 
-	CreateWindow();
-
 	CreateScenes();
 	
-	CreateView();
-
 	sf::Clock clock;
-	while (m_Window.isOpen())
+	while (m_WindowHandler.GetWindow().isOpen())
 	{
 		float dt = clock.restart().asSeconds();
 
@@ -30,19 +26,16 @@ void ast::Application::Run()
 void ast::Application::PollEvents()
 {
 	sf::Event e;
-	while (m_Window.pollEvent(e))
+	while (m_WindowHandler.GetWindow().pollEvent(e))
 	{
 		if (e.type == sf::Event::Closed)
-			m_Window.close();
+			m_WindowHandler.GetWindow().close();
 
 		if (e.type == sf::Event::Resized)
-			m_MainView = ApplyLetterboxView(m_MainView, e.size.width, e.size.height);
+			m_WindowHandler.ApplyResizedView(e);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F11))
-		{
-			m_Fullscreen = !m_Fullscreen;
-			CreateWindow();
-		}
+			m_WindowHandler.ToggleFullscreen();
 
 		m_SceneManager.PollEvents(e);
 	}
@@ -55,13 +48,13 @@ void ast::Application::Update(float dt)
 
 void ast::Application::Render()
 {
-	m_Window.clear();
+	m_WindowHandler.GetWindow().clear();
 
-	m_Window.setView(m_MainView);
+	m_WindowHandler.SetView();
 	
-	m_SceneManager.Render(m_Window);
+	m_SceneManager.Render(m_WindowHandler.GetWindow());
 
-	m_Window.display();
+	m_WindowHandler.GetWindow().display();
 }
 
 void ast::Application::InitializeSeed()
@@ -74,53 +67,4 @@ void ast::Application::CreateScenes()
 	m_SceneManager.AddScene(SceneType::MainMenu, std::make_shared<SceneMainMenu>());
 
 	m_SceneManager.SelectScene(SceneType::MainMenu);
-}
-
-sf::View& ast::Application::ApplyLetterboxView(sf::View view, int windowWidth, int windowHeight)
-{
-	float windowRatio = windowWidth / (float)windowHeight;
-	float viewRatio = view.getSize().x / (float)view.getSize().y;
-	float sizeX = 1, sizeY = 1;
-	float posX = 0, posY = 0;
-
-	bool horizontalSpacing = true;
-	if (windowRatio < viewRatio)
-		horizontalSpacing = false;
-
-	if (horizontalSpacing) {
-		sizeX = viewRatio / windowRatio;
-		posX = (1 - sizeX) / 2.f;
-	}
-
-	else {
-		sizeY = windowRatio / viewRatio;
-		posY = (1 - sizeY) / 2.f;
-	}
-
-	view.setViewport(sf::FloatRect(posX, posY, sizeX, sizeY));
-
-	return view;
-}
-
-void ast::Application::CreateView()
-{
-	m_MainView.setSize(WorldWidth, WorldHeight);
-	m_MainView.setCenter(m_MainView.getSize().x / 2, m_MainView.getSize().y / 2);
-	m_MainView = ApplyLetterboxView(m_MainView, WorldWidth, WorldHeight);
-}
-
-void ast::Application::CreateWindow()
-{
-	if (m_Window.isOpen())
-		m_Window.close();
-
-	sf::ContextSettings Settings;
-	Settings.antialiasingLevel = 8;
-
-	if(!m_Fullscreen)
-		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
-		                WindowTitle, sf::Style::Titlebar + sf::Style::Resize, Settings);
-	else
-		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
-			            WindowTitle, sf::Style::Fullscreen, Settings);
 }

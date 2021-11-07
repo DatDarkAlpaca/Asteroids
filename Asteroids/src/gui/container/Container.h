@@ -13,6 +13,8 @@ namespace ast::gui
 
 		inline bool IsSelectable() const { return false; }
 
+		void Update(float dt) override;
+
 	public:
 		void Pack(std::shared_ptr<Widget> widget);
 

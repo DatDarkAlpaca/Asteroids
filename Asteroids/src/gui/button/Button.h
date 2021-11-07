@@ -1,5 +1,5 @@
 #pragma once
-#include "gui/Widget.h"
+#include "gui/GUI.h"
 #include "utils/Utilities.h"
 
 namespace ast::gui
@@ -41,6 +41,21 @@ namespace ast::gui
 		virtual inline void PollEvents(const sf::Event& event) override { }
 
 		virtual inline bool IsSelectable() const override { return true; }
+
+		virtual inline void Update(float dt) override
+		{
+			// Todo: implement a window holder, resource manager, etc first
+			/*sf::Vector2f pos = { (float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y };
+			if (m_Shape.getLocalBounds().contains(pos))
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+					Activate();
+
+				Select();
+			}
+			else
+				Deselect();*/
+		}
 
 	public:
 		virtual void Select() override;

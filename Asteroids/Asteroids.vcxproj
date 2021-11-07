@@ -30,6 +30,7 @@
       </PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\systems\Systems.cpp" />
+    <ClCompile Include="src\application\window\WindowHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gui\button\Button.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="src\utils\Utilities.h" />
     <ClInclude Include="src\utils\Vector.h" />
     <ClInclude Include="src\gui\Widget.h" />
+    <ClInclude Include="src\application\window\WindowHandler.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -6,7 +6,7 @@ void ast::gui::Container::PollEvents(const sf::Event& event)
 	if (HasSelection() && m_Children[m_SelectedChild]->IsActive())
 		m_Children[m_SelectedChild]->PollEvents(event);
 
-	else if (event.type == sf::Event::KeyReleased)
+	else if (event.type == sf::Event::KeyPressed)
 	{
 		if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
 			SelectPrevious();
@@ -20,6 +20,12 @@ void ast::gui::Container::PollEvents(const sf::Event& event)
 				m_Children[m_SelectedChild]->Activate();
 		}
 	}
+}
+
+void ast::gui::Container::Update(float dt)
+{
+	for (auto& child : m_Children)
+		child->Update(dt);
 }
 
 void ast::gui::Container::Pack(std::shared_ptr<Widget> widget)
@@ -73,5 +79,7 @@ void ast::gui::Container::draw(sf::RenderTarget& target, sf::RenderStates states
 	states.transform *= getTransform();
 
 	for (auto& children : m_Children)
+	{
 		target.draw(*children, states);
+	}
 }

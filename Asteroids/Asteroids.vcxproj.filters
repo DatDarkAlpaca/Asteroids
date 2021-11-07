@@ -52,6 +52,9 @@
     <Filter Include="Asteroids\GUI\Container">
       <UniqueIdentifier>{522829e8-c796-4cbf-8aa6-1afcd162a51b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\Application\Window">
+      <UniqueIdentifier>{158683fb-f32c-4379-a2b3-6f0467052368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="src\gui\button\Button.cpp">
       <Filter>Asteroids\GUI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\window\WindowHandler.cpp">
+      <Filter>Asteroids\Application\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="src\gui\GUI.h">
       <Filter>Asteroids\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application\window\WindowHandler.h">
+      <Filter>Asteroids\Application\Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
