@@ -7,6 +7,7 @@ void ast::SceneSinglePlayer::Initialize()
 
 	// FPS Label Clock:
 	m_SceneTimer.SetTime(0.3f);
+	m_AsteroidTimer.SetTime(2.f);
 
 	// FPS Label:
 	m_FPSLabel = std::make_shared<gui::Label>("60 fps", *fontHolder.font, 18);
@@ -31,6 +32,15 @@ void ast::SceneSinglePlayer::Update(float dt)
 	{
 		m_FPSLabel->SetText(std::to_string(int(1 / dt)) + " fps");
 		m_SceneTimer.Restart();
+	}
+
+	// Asteroid Spawn:
+	m_AsteroidTimer.Update(dt);
+
+	if (m_AsteroidTimer.IsDone())
+	{
+		CreateAsteroid(registry, regularAsteroid, 3);
+		m_AsteroidTimer.Restart();
 	}
 
 	// Physics & Input:

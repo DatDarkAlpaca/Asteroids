@@ -26,7 +26,7 @@ namespace ast
 		std::shared_ptr<gui::Label> m_FPSLabel;
 
 	private:
-		Timer m_SceneTimer;
+		Timer m_SceneTimer, m_AsteroidTimer;
 	};
 
 }

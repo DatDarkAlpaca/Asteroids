@@ -12,11 +12,12 @@ void ast::WindowHandler::CreateWindow()
 
 	if (!m_Fullscreen)
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
-			WindowTitle, sf::Style::Titlebar + sf::Style::Resize, Settings);
+			WindowTitle, sf::Style::Titlebar + sf::Style::Close, Settings);
 	else
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
 			WindowTitle, sf::Style::Fullscreen, Settings);
 
+	m_Window.setFramerateLimit(60);
 }
 
 ast::WindowHandler::WindowHandler()

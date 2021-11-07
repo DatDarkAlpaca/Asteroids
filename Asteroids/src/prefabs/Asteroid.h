@@ -51,10 +51,10 @@ namespace ast
 
 		inline Kinematics RandomKinematics(entt::registry& registry)
 		{
-			float speed = RandomFloat(10.f, 50.f);
+			float speed = RandomFloat(40.f, 150.f);
 			float angularSpeed = RandomFloat(-5, 5);
 
-			Kinematics kinematics(speed, -50.f, 50.f, 0.f, 0.f, angularSpeed);
+			Kinematics kinematics(speed, -50.f, 50.f, 0.f, 0.f, angularSpeed, {1, 1});
 
 			return kinematics;
 		}

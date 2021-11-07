@@ -90,12 +90,13 @@ void ast::DestroyOnBounds(entt::registry& registry)
 
 		if (position.position.x > destroy.right)
 			registry.destroy(entity);
-
+	
 		if (position.position.y < destroy.top)
 			registry.destroy(entity);
-
+	
 		if (position.position.y > destroy.bottom)
 			registry.destroy(entity);
+
 	}
 }
 
