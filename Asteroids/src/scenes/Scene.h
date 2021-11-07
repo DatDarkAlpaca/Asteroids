@@ -7,8 +7,11 @@ namespace ast
 	enum class SceneType
 	{
 		None = 0,
-		MainMenu = 1
+		MainMenu = 1,
+		SinglePlay = 2
 	};
+
+	class SceneManager;
 
 	class Scene
 	{
@@ -17,6 +20,9 @@ namespace ast
 
 	public:
 		virtual ~Scene() = default;
+
+	public:
+		inline void SetManager(SceneManager* manager) { this->manager = manager; }
 
 	public:
 		virtual void Initialize() {};
@@ -29,10 +35,11 @@ namespace ast
 
 		virtual void Cleanup() {};
 
+	protected:
+		SceneManager* manager;
+
 	public:
 		entt::registry registry;
-
-		friend class Entity;
 	};
 
 }

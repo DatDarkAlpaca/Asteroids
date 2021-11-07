@@ -5,10 +5,13 @@
 namespace ast
 {
 
+	class Application;
+
 	class SceneManager
 	{
 	public:
-		SceneManager() = default;
+		SceneManager(Application* application)
+			: application(application) { }
 
 	public:
 		void PollEvents(const sf::Event& _event);
@@ -25,9 +28,15 @@ namespace ast
 
 		void SelectScene(SceneType sceneName);
 
+	public:
+		Application& GetApp() { return *application; }
+
 	private:
 		std::unordered_map<SceneType, std::shared_ptr<Scene>> m_Scenes;
 		std::shared_ptr<Scene> m_CurrentScene;
+
+	private:
+		Application* application;
 	};
 
 }

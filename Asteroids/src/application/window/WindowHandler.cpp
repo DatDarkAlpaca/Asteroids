@@ -16,9 +16,6 @@ void ast::WindowHandler::CreateWindow()
 	else
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
 			WindowTitle, sf::Style::Fullscreen, Settings);
-
-	// Todo: Think of a better system to carry the window around:
-	windowHolder.window = &m_Window;
 }
 
 ast::WindowHandler::WindowHandler()

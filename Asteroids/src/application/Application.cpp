@@ -2,6 +2,7 @@
 #include "Core.h"
 #include "Application.h"
 #include "scenes/SceneMainMenu.h"
+#include "scenes/SceneSinglePlayer.h"
 #include "utils/Random.h"
 
 void ast::Application::Run()
@@ -64,7 +65,18 @@ void ast::Application::InitializeSeed()
 
 void ast::Application::CreateScenes()
 {
-	m_SceneManager.AddScene(SceneType::MainMenu, std::make_shared<SceneMainMenu>());
+	// MainMenu:
+	auto mainMenu = std::make_shared<SceneMainMenu>();
+	mainMenu->SetManager(&m_SceneManager);
 
+	// SinglePlayer:
+	auto single = std::make_shared<SceneSinglePlayer>();
+	single->SetManager(&m_SceneManager);
+
+	// Adding scenes:
+	m_SceneManager.AddScene(SceneType::MainMenu, mainMenu);
+	m_SceneManager.AddScene(SceneType::SinglePlay, single);
+
+	// First scene:
 	m_SceneManager.SelectScene(SceneType::MainMenu);
 }

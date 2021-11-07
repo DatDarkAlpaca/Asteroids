@@ -29,7 +29,7 @@ namespace ast
 		}
 	}
 
-	entt::entity CreateBullet(entt::registry& registry, sf::Vector2f& position, float rotation, const BulletData& data)
+	inline entt::entity CreateBullet(entt::registry& registry, sf::Vector2f& position, float rotation, const BulletData& data)
 	{
 		auto bullet = registry.create();	
 

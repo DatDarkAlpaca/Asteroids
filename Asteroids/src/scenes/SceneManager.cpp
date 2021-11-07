@@ -33,6 +33,8 @@ void ast::SceneManager::SelectScene(SceneType sceneName)
 	if (m_CurrentScene != nullptr)
 		m_CurrentScene->Cleanup();
 
+	std::cout << "changed scene\n";
+
 	m_CurrentScene = m_Scenes[sceneName];
 	m_CurrentScene->Initialize();
 }

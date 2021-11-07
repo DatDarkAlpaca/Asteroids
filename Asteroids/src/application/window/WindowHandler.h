@@ -4,12 +4,6 @@
 namespace ast 
 {
 
-	// Todo: think of a better system to carry the window around:
-	struct WindowHolder
-	{
-		sf::RenderWindow* window;
-	} inline windowHolder;
-
 	class WindowHandler
 	{
 	public:

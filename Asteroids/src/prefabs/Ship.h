@@ -101,7 +101,7 @@ namespace ast
 		}
 	}
 
-	entt::entity CreateShip(entt::registry& registry, const ShipForm& form = ShipForm::Standard, sf::Color color = sf::Color::White, bool fill = false)
+	inline entt::entity CreateShip(entt::registry& registry, const ShipForm& form = ShipForm::Standard, sf::Color color = sf::Color::White, bool fill = false)
 	{
 		auto player = registry.create();
 

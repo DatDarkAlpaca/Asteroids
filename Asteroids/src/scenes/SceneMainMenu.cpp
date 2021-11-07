@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "SceneMainMenu.h"
-#include "components/Components.h"
-#include "systems/Systems.h"
-#include "prefabs/Asteroid.h"
-#include "prefabs/Ship.h"
-#include "../application/window/WindowHandler.h"
+#include "../application/Application.h"
 #include "../utils/Utilities.h"
+#include "../scenes/SceneManager.h"
+#include "../application/Core.h"
 
 
 void ast::SceneMainMenu::Initialize()
@@ -26,7 +24,7 @@ void ast::SceneMainMenu::Initialize()
 	// Title:
 	auto titleBar = std::make_shared<gui::Label>("Asteroids", *m_Font, 60);
 	titleBar->setPosition ({
-		(float)WorldWidth / 2 - titleBar->getText().getGlobalBounds().width / 2,
+		(float)WorldWidth / 2 - titleBar->getText().getGlobalBounds().width / 2 - 5,
 		(float)WorldHeight / 2 - 150
 	});
 
@@ -38,6 +36,7 @@ void ast::SceneMainMenu::Initialize()
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
 		(float)WorldHeight / 2
 	});
+	play->SetCallback([this]() { manager->SelectScene(SceneType::SinglePlay); });
 
 	// Settings button:
 	auto settings = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
@@ -62,7 +61,7 @@ void ast::SceneMainMenu::Initialize()
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
 		(float)WorldHeight / 2 + 150
 	});
-	exit->SetCallback([this]() { windowHolder.window->close(); });
+	exit->SetCallback([this]() { manager->GetApp().RequestClose(); });
 
 	m_MainContainer.Pack(alpha);
 	m_MainContainer.Pack(titleBar);
@@ -75,21 +74,11 @@ void ast::SceneMainMenu::Initialize()
 
 void ast::SceneMainMenu::PollEvents(const sf::Event& event)
 {
-	InputSystem(registry);
-
 	m_MainContainer.PollEvents(event);
 }
 
 void ast::SceneMainMenu::Update(float dt)
 {
-	/*ShootingSystem(registry, dt);
-
-	DestroyOnBounds(registry);
-
-	StayOnBounds(registry);
-
-	PhysicsSystem(registry, dt);*/
-
 	m_MainContainer.Update(dt);
 }
 
@@ -97,12 +86,10 @@ void ast::SceneMainMenu::Render(sf::RenderWindow& window)
 {
 	window.draw(m_Background);
 
-	RenderSystem(registry, window);
-
 	window.draw(m_MainContainer);
 }
 
 void ast::SceneMainMenu::Cleanup()
 {
-	delete m_Font;
+	
 }

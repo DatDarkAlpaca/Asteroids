@@ -55,6 +55,9 @@
     <Filter Include="Asteroids\Application\Window">
       <UniqueIdentifier>{158683fb-f32c-4379-a2b3-6f0467052368}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\Scenes\SinglePlayer">
+      <UniqueIdentifier>{ab5060e9-46b5-47be-a9c2-82e82902608e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="src\application\window\WindowHandler.cpp">
       <Filter>Asteroids\Application\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\SceneSinglePlayer.cpp">
+      <Filter>Asteroids\Scenes\SinglePlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="src\application\window\WindowHandler.h">
       <Filter>Asteroids\Application\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\SceneSinglePlayer.h">
+      <Filter>Asteroids\Scenes\SinglePlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

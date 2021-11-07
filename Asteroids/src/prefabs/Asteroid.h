@@ -127,7 +127,7 @@ namespace ast
 		}
 	}
 
-	entt::entity CreateAsteroid(entt::registry& registry, AsteroidData& data, int size = 3)
+	inline entt::entity CreateAsteroid(entt::registry& registry, AsteroidData& data, int size = 3)
 	{
 		// Size:
 		data.size = size;
