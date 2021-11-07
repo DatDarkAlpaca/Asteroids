@@ -4,6 +4,9 @@
 #include "systems/Systems.h"
 #include "prefabs/Asteroid.h"
 #include "prefabs/Ship.h"
+#include "../application/window/WindowHandler.h"
+#include "../utils/Utilities.h"
+
 
 void ast::SceneMainMenu::Initialize()
 {
@@ -59,7 +62,7 @@ void ast::SceneMainMenu::Initialize()
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
 		(float)WorldHeight / 2 + 150
 	});
-	exit->SetCallback([this]() { std::cout << "Implement the exit mechanism bitch\n"; });
+	exit->SetCallback([this]() { windowHolder.window->close(); });
 
 	m_MainContainer.Pack(alpha);
 	m_MainContainer.Pack(titleBar);
