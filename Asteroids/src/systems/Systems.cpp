@@ -5,15 +5,10 @@
 
 void ast::RenderSystem(entt::registry& registry, sf::RenderWindow& window)
 {
-	auto view = registry.view<Position, Rotation, Scale, Shape>();
+	auto view = registry.view<Transformable, Shape>();
 
-	for (auto&& [entity, position, rotation, scale, shape] : view.each())
-	{
-		sf::Transform transform = ApplyTransform(position, shape.origin, scale, rotation);
-		sf::RenderStates states(transform);		
-
-		window.draw(shape, states);
-	}
+	for (auto&& [entity, transformable, shape] : view.each())
+		window.draw(shape, transformable.transformable.getTransform());
 }
 
 // Player Systems:
@@ -40,9 +35,9 @@ void ast::InputSystem(entt::registry& registry)
 
 void ast::ShootingSystem(entt::registry& registry, float dt)
 {
-	auto view = registry.view<Position, Rotation, Shooting, Input>();
+	auto view = registry.view<Transformable, Shooting, Input>();
 
-	for (auto&& [entity, position, rotation, shooting, input] : view.each())
+	for (auto&& [entity, transformable, shooting, input] : view.each())
 	{
 		input.canShoot = shooting.cooldown >= shooting.cooldownMax;
 
@@ -53,60 +48,69 @@ void ast::ShootingSystem(entt::registry& registry, float dt)
 		{
 			shooting.cooldown = 0;
 
-			CreateBullet(registry, position, rotation, regularBullet);
+			CreateBullet(registry, transformable.transformable.getPosition(), 
+				                   transformable.transformable.getRotation(), regularBullet);
 		}
 	}
 }
 
 void ast::StayOnBounds(entt::registry& registry)
 {
-	auto shipView = registry.view<StayInBounds, Position, Kinematics>();
+	auto shipView = registry.view<Transformable, StayInBounds, Kinematics>();
 
-	for (auto&& [entity, stay, position, kinematics] : shipView.each())
+	for (auto&& [entity, transformable, stay, kinematics] : shipView.each())
 	{
-		if (position.position.x <= stay.left && kinematics.velocity.x < 0)
-			position.position = { stay.right, position.position.y };
+		auto& transf = transformable.transformable;
+		const auto& x = transf.getPosition().x;
+		const auto& y = transf.getPosition().y;
 
-		if (position.position.x > stay.right && kinematics.velocity.x > 0)
-			position.position = { stay.left, position.position.y };
+		if (x <= stay.left && kinematics.velocity.x < 0)
+			transf.setPosition({ stay.right, y });
 
-		if (position.position.y <= stay.top && kinematics.velocity.y < 0)
-			position.position = { position.position.x, stay.bottom };
+		if (x > stay.right && kinematics.velocity.x > 0)
+			transf.setPosition({ stay.left, y });
 
-		if (position.position.y > stay.bottom && kinematics.velocity.y > 0)
-			position.position = { position.position.x, stay.top };
+		if (y <= stay.top && kinematics.velocity.y < 0)
+			transf.setPosition({ x, stay.bottom });
+
+		if (y > stay.bottom && kinematics.velocity.y > 0)
+			transf.setPosition({ x, stay.top });
 	}
 }
 
 // NPC Systems:
 void ast::DestroyOnBounds(entt::registry& registry)
 {
-	auto view = registry.view<DestoyOnBounds, Position>();
+	auto view = registry.view<Transformable, DestoyOnBounds>();
 
-	for (auto&& [entity, destroy, position] : view.each())
+	for (auto&& [entity, transformable, destroy] : view.each())
 	{
-		if (position.position.x < destroy.left)
+		auto& transf = transformable.transformable;
+		const auto& x = transf.getPosition().x;
+		const auto& y = transf.getPosition().y;
+
+		if (x < destroy.left)
 			registry.destroy(entity);
 
-		if (position.position.x > destroy.right)
+		if (x > destroy.right)
 			registry.destroy(entity);
 	
-		if (position.position.y < destroy.top)
+		if (y < destroy.top)
 			registry.destroy(entity);
 	
-		if (position.position.y > destroy.bottom)
+		if (y > destroy.bottom)
 			registry.destroy(entity);
-
 	}
 }
 
 // Physics Systems:
 void ast::AccelerateSystem(entt::registry& registry, float dt)
 {
-	auto view = registry.view<Kinematics, Rotation>();
+	auto view = registry.view<Transformable, Kinematics>();
 
-	for (auto&& [entity, kinematics, rotation] : view.each())
+	for (auto&& [entity, transformable, kinematics] : view.each())
 	{
+		const auto& rotation = transformable.transformable.getRotation();
 		kinematics.velocity.x += kinematics.acceleration * cosf((rotation + 90.f) * 3.1415f / 180.f) * dt;
 		kinematics.velocity.y += kinematics.acceleration * sinf((rotation + 90.f) * 3.1415f / 180.f) * dt;
 	}
@@ -114,9 +118,9 @@ void ast::AccelerateSystem(entt::registry& registry, float dt)
 
 void ast::BrakeSystem(entt::registry& registry, float dt, float multiplier)
 {
-	auto view = registry.view<Kinematics, Rotation>();
+	auto view = registry.view<Kinematics>();
 
-	for (auto&& [entity, kinematics, rotation] : view.each())
+	for (auto&& [entity, kinematics] : view.each())
 	{
 		auto& velocity = kinematics.velocity;
 		const auto multipliedDrag = kinematics.drag * dt * multiplier;
@@ -167,22 +171,25 @@ void ast::VelocityClampSystem(entt::registry& registry)
 
 void ast::MoveSystem(entt::registry& registry, float dt)
 {
-	auto view = registry.view<Position, Kinematics, Shape>();
+	auto view = registry.view<Transformable, Kinematics, Shape>();
 
-	for (auto&& [entity, position, kinematics, shape] : view.each())
+	for (auto&& [entity, transformable, kinematics, shape] : view.each())
 	{
-		position.position = { position.position.x + kinematics.velocity.x * dt,
-						      position.position.y + kinematics.velocity.y * dt };
+		auto& transf = transformable.transformable;
+		transf.move(kinematics.velocity.x * dt, kinematics.velocity.y * dt);
 	}
 }
 
 void ast::RotateSystem(entt::registry& registry, float dt)
 {
-	auto shipView = registry.view<Rotation, Kinematics, Input>();
+	auto shipView = registry.view<Transformable, Kinematics, Input>();
 
 	// Ship rotation:
-	for (auto&& [entity, rotation, kinematics, input] : shipView.each())
-		rotation.rotation += kinematics.angularSpeed * dt * input.rotationDirection;
+	for (auto&& [entity, transformable, kinematics, input] : shipView.each())
+	{
+		auto& transf = transformable.transformable;
+		transf.rotate(kinematics.angularSpeed * dt * input.rotationDirection);
+	}
 
 	// Todo: npc rotation.
 }

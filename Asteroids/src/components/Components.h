@@ -4,37 +4,13 @@
 
 namespace ast
 {
-	struct Position
+	struct Transformable
 	{
-		Position(sf::Vector2f& position) : position(position) { }
-		
-		Position() = default;
-
-		operator sf::Vector2f& () { return position; }
-
-		sf::Vector2f position;
+		sf::Transformable transformable;
 	};
 
-	struct Rotation
-	{
-		Rotation(float rotation) : rotation(rotation) { }
-		
-		Rotation() = default;
 
-		operator float () { return rotation; }
-		float rotation = 0.f;
-	};
-
-	struct Scale
-	{
-		Scale(sf::Vector2f& scale) : scale(scale) { }
-		
-		Scale() = default;
-
-		operator sf::Vector2f() { return scale; }
-		sf::Vector2f scale = { 1.f, 1.f };
-	};
-
+	// Shape:
 	struct Shape
 	{
 		Shape(sf::VertexArray& vertices) : shape(vertices) { }
@@ -49,21 +25,8 @@ namespace ast
 		sf::VertexArray shape;
 	};
 
-	struct Kinematics
-	{
-		Kinematics(float speed = 0.f, float minSpeed = 0.f, float maxSpeed = 0.f, float acceleration = 0.f, float drag = 0.f, float angularSpeed = 0.f, const sf::Vector2f& direction = sf::Vector2f(0, 0)) :
-			speed(speed), acceleration(acceleration), drag(drag), angularSpeed(angularSpeed), 
-			maxSpeed(maxSpeed), minSpeed(minSpeed) 
-		{
-			velocity = direction * speed;
-		}
-
-		Kinematics() = default;
-
-		sf::Vector2f velocity = { 0.f, 0.f };
-		float speed, acceleration, drag, angularSpeed, maxSpeed, minSpeed;
-	};
-
+	
+	// Input:
 	struct Input
 	{
 		Input() : accelerating(false), braking(false), shooting(false), canShoot(true) { }
@@ -75,10 +38,26 @@ namespace ast
 	struct Shooting
 	{
 		Shooting(float cooldown) : cooldownMax(cooldown) { }
-		
+
 		Shooting() = default;
 
 		float cooldown = 0.f, cooldownMax;
+	};
+
+	// Physics:
+	struct Kinematics
+	{
+		Kinematics(float speed = 0.f, float minSpeed = 0.f, float maxSpeed = 0.f, float acceleration = 0.f, float drag = 0.f, float angularSpeed = 0.f, const sf::Vector2f& direction = sf::Vector2f(0, 0)) :
+			speed(speed), acceleration(acceleration), drag(drag), angularSpeed(angularSpeed),
+			maxSpeed(maxSpeed), minSpeed(minSpeed)
+		{
+			velocity = direction * speed;
+		}
+
+		Kinematics() = default;
+
+		sf::Vector2f velocity = { 0.f, 0.f };
+		float speed, acceleration, drag, angularSpeed, maxSpeed, minSpeed;
 	};
 
 	struct Hitbox
@@ -100,6 +79,7 @@ namespace ast
 		sf::FloatRect localBounds;
 	};
 
+	// Border factors:
 	struct DestoyOnBounds
 	{
 		DestoyOnBounds(float left, float right, float top, float bottom)

@@ -29,7 +29,7 @@ namespace ast
 		}
 	}
 
-	inline entt::entity CreateBullet(entt::registry& registry, sf::Vector2f& position, float rotation, const BulletData& data)
+	inline entt::entity CreateBullet(entt::registry& registry, const sf::Vector2f& position, float rotation, const BulletData& data)
 	{
 		auto bullet = registry.create();	
 
@@ -45,9 +45,9 @@ namespace ast
 		registry.emplace<Kinematics>(bullet, kinematics);
 
 		// Transform:
-		registry.emplace<Scale>(bullet);
-		registry.emplace<Position>(bullet, position);
-		registry.emplace<Rotation>(bullet);
+		Transformable transformable;
+		transformable.transformable.setPosition(position);
+		registry.emplace<Transformable>(bullet, transformable);
 		
 		// Destoy:
 		registry.emplace<DestoyOnBounds>(bullet, 

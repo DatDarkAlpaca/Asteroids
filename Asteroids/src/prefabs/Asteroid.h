@@ -129,29 +129,30 @@ namespace ast
 
 	inline entt::entity CreateAsteroid(entt::registry& registry, AsteroidData& data, int size = 3)
 	{
+		auto asteroid = registry.create();
+
 		// Size:
 		data.size = size;
 
 		// Kinematics:
 		auto kinematics = RandomKinematics(registry);
 	
+		// Transfom:
+		Transformable transformable;
+		transformable.transformable.setPosition(PrepareAsteroid(kinematics, data.radius));
+		registry.emplace<Transformable>(asteroid);
+
 		// Shape:
 		sf::VertexArray vertices;
 		GenerateShape(data, vertices);
 		Shape asteroidShape(vertices);
+		registry.emplace<Shape>(asteroid, asteroidShape);
 	
 		// Bounds:
 		sf::FloatRect bounds = vertices.getBounds();
-
-		// Preparing and position:
-		auto position = PrepareAsteroid(kinematics, data.radius);
-
-		auto asteroid = registry.create();
-		registry.emplace<Scale>(asteroid);
-		registry.emplace<Rotation>(asteroid);
-		registry.emplace<Shape>(asteroid, asteroidShape);
 		registry.emplace<Hitbox>(asteroid, bounds);
-		registry.emplace<Position>(asteroid, position);
+
+		// Todo: most of the data is only needed to create the asteroid:
 		registry.emplace<AsteroidData>(asteroid, data);
 		registry.emplace<Kinematics>(asteroid, kinematics);
 

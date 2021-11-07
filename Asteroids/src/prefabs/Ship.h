@@ -107,13 +107,12 @@ namespace ast
 
 		registry.emplace<Kinematics>(player, 0.f, -100.f, 100.f, -350.f, 150.f, 200.f);
 		registry.emplace<Shooting>(player, 0.15f);
-		registry.emplace<Rotation>(player);
 		registry.emplace<Input>(player);
-		registry.emplace<Scale>(player);
 
 		// Starting position:
-		sf::Vector2f position = { 200.f, 200.f };
-		registry.emplace<Position>(player, position);
+		Transformable transformable;
+		transformable.transformable.setPosition({ 200, 200 });
+		registry.emplace<Transformable>(player, transformable);
 
 		// Shape:
 		ShapeOriginPack shipPack = determineShipShape(form, fill, color);
