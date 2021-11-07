@@ -2,13 +2,34 @@
 #include "utils/Vector.h"
 #include "systems/Systems.h"
 #include "prefabs/Bullet.h"
+#include "prefabs/Asteroid.h"
 
 void ast::RenderSystem(entt::registry& registry, sf::RenderWindow& window)
 {
 	auto view = registry.view<Transformable, Shape>();
 
 	for (auto&& [entity, transformable, shape] : view.each())
+	{
 		window.draw(shape, transformable.transformable.getTransform());
+	}
+
+	auto wireView = registry.view<Transformable, Hitbox>();
+
+	for (auto&& [entity, transformable, hitbox] : wireView.each())
+	{
+		const auto& transform = transformable.transformable.getTransform();
+
+		sf::RectangleShape shape;
+
+		shape.setFillColor(sf::Color::Transparent);
+		shape.setOutlineColor(sf::Color::Green);
+		shape.setOutlineThickness(1);
+
+		shape.setSize({ hitbox.globalBounds(transform).width, hitbox.globalBounds(transform).height });
+		shape.setOrigin({ hitbox.globalBounds(transform).width / 2, hitbox.globalBounds(transform).height / 2  });
+
+		window.draw(shape, transform);
+	}
 }
 
 // Player Systems:
@@ -169,6 +190,36 @@ void ast::VelocityClampSystem(entt::registry& registry)
 	}
 }
 
+void ast::CollisionSystem(entt::registry& registry)
+{
+	auto bulletView = registry.view<Transformable, Hitbox, Bullet>();
+	auto asteroidView = registry.view<Transformable, Hitbox, AsteroidData>();
+
+	for (auto&& [entityBullet, bulletTransform, bulletHitbox, bulletID] : bulletView.each())
+	{
+		for (auto&& [entityAsteroid, asteroidTransform, asteroidHitbox, asteroidData] : asteroidView.each())
+		{
+			const auto& bt = bulletTransform.transformable.getTransform();
+			const auto& at = asteroidTransform.transformable.getTransform();
+
+			if(bulletHitbox.globalBounds(bt).intersects(asteroidHitbox.globalBounds(at)))
+			{
+				registry.destroy(entityBullet);
+				registry.destroy(entityAsteroid);
+
+				if (asteroidData.size > 1)
+				{
+					auto position = asteroidTransform.transformable.getPosition();
+					
+					CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, 1);
+					CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, 1);
+					break;
+				}
+			}
+		}
+	}
+}
+
 void ast::MoveSystem(entt::registry& registry, float dt)
 {
 	auto view = registry.view<Transformable, Kinematics, Shape>();
@@ -208,6 +259,8 @@ void ast::PhysicsSystem(entt::registry& registry, float dt)
 	}
 
 	VelocityClampSystem(registry);
+
+	CollisionSystem(registry);
 
 	RotateSystem(registry, dt);
 	MoveSystem(registry, dt);

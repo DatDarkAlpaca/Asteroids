@@ -32,10 +32,12 @@ namespace ast
 	inline entt::entity CreateBullet(entt::registry& registry, const sf::Vector2f& position, float rotation, const BulletData& data)
 	{
 		auto bullet = registry.create();	
+		registry.emplace<Bullet>(bullet);
+
 
 		// Shape:
-		sf::VertexArray shape = CreateShape(data);
-		registry.emplace<Shape>(bullet, shape);
+		sf::VertexArray vertices = CreateShape(data);
+		registry.emplace<Shape>(bullet, vertices);
 
 		// Kinematics:
 		sf::Vector2f direction;
@@ -44,9 +46,14 @@ namespace ast
 		Kinematics kinematics(data.speed, -data.speed, data.speed, 0.f, 0.f, 0.f, direction);
 		registry.emplace<Kinematics>(bullet, kinematics);
 
+		// Hitbox:
+		sf::FloatRect bounds = vertices.getBounds();
+		registry.emplace<Hitbox>(bullet, bounds);
+
 		// Transform:
 		Transformable transformable;
 		transformable.transformable.setPosition(position);
+		transformable.transformable.setOrigin({ data.radius / 2, data.radius / 2 });
 		registry.emplace<Transformable>(bullet, transformable);
 		
 		// Destoy:

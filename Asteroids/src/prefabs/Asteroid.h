@@ -123,6 +123,7 @@ namespace ast
 					break;
             }
 
+			std::cout << x << " " << y << '\n';
 			return sf::Vector2f((float)x, (float)y);
 		}
 	}
@@ -130,6 +131,7 @@ namespace ast
 	inline entt::entity CreateAsteroid(entt::registry& registry, AsteroidData& data, int size = 3)
 	{
 		auto asteroid = registry.create();
+		registry.emplace<Asteroid>(asteroid);
 
 		// Size:
 		data.size = size;
@@ -137,20 +139,20 @@ namespace ast
 		// Kinematics:
 		auto kinematics = RandomKinematics(registry);
 	
-		// Transfom:
-		Transformable transformable;
-		transformable.transformable.setPosition(PrepareAsteroid(kinematics, data.radius));
-		registry.emplace<Transformable>(asteroid);
-
 		// Shape:
 		sf::VertexArray vertices;
 		GenerateShape(data, vertices);
 		Shape asteroidShape(vertices);
 		registry.emplace<Shape>(asteroid, asteroidShape);
-	
+
 		// Bounds:
 		sf::FloatRect bounds = vertices.getBounds();
 		registry.emplace<Hitbox>(asteroid, bounds);
+
+		// Transfom:
+		Transformable transformable;
+		transformable.transformable.setPosition(PrepareAsteroid(kinematics, data.radius));
+		registry.emplace<Transformable>(asteroid, transformable);			
 
 		// Todo: most of the data is only needed to create the asteroid:
 		registry.emplace<AsteroidData>(asteroid, data);
@@ -161,6 +163,45 @@ namespace ast
 									     WorldWidth + bounds.width + 30,
 			                            -(bounds.height + 30),
 										 WorldHeight + bounds.height + 30);
+
+		return asteroid;
+	}
+
+	inline entt::entity CreateChildAsteroid(entt::registry& registry, AsteroidData& data, int size, sf::Vector2f position, int speed)
+	{
+		auto asteroid = registry.create();
+		registry.emplace<Asteroid>(asteroid);
+
+		// Size:
+		data.size = size;
+
+		// Kinematics:
+		auto kinematics = RandomKinematics(registry);
+
+		// Shape:
+		sf::VertexArray vertices;
+		GenerateShape(data, vertices);
+		Shape asteroidShape(vertices);
+		registry.emplace<Shape>(asteroid, asteroidShape);
+
+		// Bounds:
+		sf::FloatRect bounds = vertices.getBounds();
+		registry.emplace<Hitbox>(asteroid, bounds);
+
+		// Transfom:
+		Transformable transformable;
+		transformable.transformable.setPosition(position);
+		registry.emplace<Transformable>(asteroid, transformable);
+
+		// Todo: most of the data is only needed to create the asteroid:
+		registry.emplace<AsteroidData>(asteroid, data);
+		registry.emplace<Kinematics>(asteroid, kinematics);
+
+		// Destroying:
+		registry.emplace<DestoyOnBounds>(asteroid, -(bounds.width + 30),
+			WorldWidth + bounds.width + 30,
+			-(bounds.height + 30),
+			WorldHeight + bounds.height + 30);
 
 		return asteroid;
 	}

@@ -109,22 +109,22 @@ namespace ast
 		registry.emplace<Shooting>(player, 0.15f);
 		registry.emplace<Input>(player);
 
-		// Starting position:
-		Transformable transformable;
-		transformable.transformable.setPosition({ 200, 200 });
-		registry.emplace<Transformable>(player, transformable);
-
 		// Shape:
 		ShapeOriginPack shipPack = determineShipShape(form, fill, color);
 		sf::FloatRect bounds = shipPack.vertices.getBounds();
 
+		// Starting position:
+		Transformable transformable;
+		transformable.transformable.setPosition({ 200, 200 });
+		transformable.transformable.setOrigin(shipPack.origin);
+		registry.emplace<Transformable>(player, transformable);
+
 		// Origin:
 		Shape shipShape(shipPack.vertices);
-		shipShape.setOrigin(shipPack.origin);
 		
 		// Shape Component:
 		registry.emplace<Shape>(player, shipShape);
-		registry.emplace<Hitbox>(player, bounds);
+		//registry.emplace<Hitbox>(player, bounds);
 
 		registry.emplace<StayInBounds>(player, -bounds.width,  // left
 												WorldWidth + bounds.width, //right 

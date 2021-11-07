@@ -23,6 +23,8 @@ namespace ast
 
 	void VelocityClampSystem(entt::registry& registry);
 	
+	void CollisionSystem(entt::registry& registry);
+
 	void MoveSystem(entt::registry& registry, float dt);
 
 	void RotateSystem(entt::registry& registry, float dt);

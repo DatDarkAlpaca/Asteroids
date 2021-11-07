@@ -4,11 +4,16 @@
 
 namespace ast
 {
+	// Identifiers:
+	struct Bullet { char id; };
+
+	struct Asteroid { char id; };
+
+	// Transformable:
 	struct Transformable
 	{
 		sf::Transformable transformable;
 	};
-
 
 	// Shape:
 	struct Shape
@@ -25,7 +30,6 @@ namespace ast
 		sf::VertexArray shape;
 	};
 
-	
 	// Input:
 	struct Input
 	{
