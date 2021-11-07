@@ -8,21 +8,16 @@
 
 void ast::SceneMainMenu::Initialize()
 {
-	// Todo: Store the font into the future engine's resources manager:
-	m_Font = new sf::Font();
-	if (!m_Font->loadFromFile("res/free-pixel.ttf"))
-		std::cout << "[Error]: Failed to initialize font free-pixel.ttf\n";
-
 	// Background:
 	m_Background.setFillColor(sf::Color(10, 10, 10, 255));
 	m_Background.setSize({ (float)WorldWidth, (float)WorldHeight });
 
 	// Alpha:
-	auto alpha = std::make_shared<gui::Label>("version 0.1s", *m_Font, 18);
+	auto alpha = std::make_shared<gui::Label>("version 0.1s", *fontHolder.font, 18);
 	alpha->setPosition({ 0, (float)WorldHeight - alpha->getText().getGlobalBounds().height * 2 });
 
 	// Title:
-	auto titleBar = std::make_shared<gui::Label>("Asteroids", *m_Font, 60);
+	auto titleBar = std::make_shared<gui::Label>("Asteroids", *fontHolder.font, 60);
 	titleBar->setPosition ({
 		(float)WorldWidth / 2 - titleBar->getText().getGlobalBounds().width / 2 - 5,
 		(float)WorldHeight / 2 - 150
@@ -30,7 +25,7 @@ void ast::SceneMainMenu::Initialize()
 
 	// Play button:
 	sf::RectangleShape buttonShape({300, 50});
-	auto play = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	auto play = std::make_shared<gui::Button>(buttonShape, *fontHolder.font, 36, gui::standaloneText, gui::noneHolder, false);
 	play->SetText("Play");
 	play->setPosition({
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
@@ -39,7 +34,7 @@ void ast::SceneMainMenu::Initialize()
 	play->SetCallback([this]() { manager->SelectScene(SceneType::SinglePlay); });
 
 	// Settings button:
-	auto settings = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	auto settings = std::make_shared<gui::Button>(buttonShape, *fontHolder.font, 36, gui::standaloneText, gui::noneHolder, false);
 	settings->SetText("Settings");
 	settings->setPosition({
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
@@ -47,7 +42,7 @@ void ast::SceneMainMenu::Initialize()
 	});
 
 	// Workshop button:
-	auto workshop = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	auto workshop = std::make_shared<gui::Button>(buttonShape, *fontHolder.font, 36, gui::standaloneText, gui::noneHolder, false);
 	workshop->SetText("Workshop");
 	workshop->setPosition({
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,
@@ -55,7 +50,7 @@ void ast::SceneMainMenu::Initialize()
 	});
 
 	// Exit button:
-	auto exit = std::make_shared<gui::Button>(buttonShape, *m_Font, 36, gui::standaloneText, gui::noneHolder, false);
+	auto exit = std::make_shared<gui::Button>(buttonShape, *fontHolder.font, 36, gui::standaloneText, gui::noneHolder, false);
 	exit->SetText("Exit");
 	exit->setPosition({
 		(float)WorldWidth / 2 - play->shape().getGlobalBounds().width / 2,

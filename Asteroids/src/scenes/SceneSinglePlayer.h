@@ -4,6 +4,8 @@
 #include "systems/Systems.h"
 #include "prefabs/Asteroid.h"
 #include "prefabs/Ship.h"
+#include "gui/GUI.h"
+#include "../utils/Utilities.h"
 
 namespace ast
 {
@@ -19,6 +21,12 @@ namespace ast
 
 		virtual void Render(sf::RenderWindow& window) override;
 
+	private:
+		gui::Container m_MainContainer;
+		std::shared_ptr<gui::Label> m_FPSLabel;
+
+	private:
+		Timer m_SceneTimer;
 	};
 
 }
