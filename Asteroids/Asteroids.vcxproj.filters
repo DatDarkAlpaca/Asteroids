@@ -76,6 +76,9 @@
     <Filter Include="Asteroids\Scenes\Settings">
       <UniqueIdentifier>{566672f8-e5e5-43b4-a7a4-83cd67f4b47c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\Scenes\Workshop">
+      <UniqueIdentifier>{5e8fc9b1-cfb3-457e-8171-5c0df2d7cb94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">
@@ -114,7 +117,12 @@
     <ClCompile Include="src\systems\PhysicsSystems.cpp">
       <Filter>Asteroids\ECS\Systems\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\scenes\SceneSettings.cpp" />
+    <ClCompile Include="src\scenes\SceneSettings.cpp">
+      <Filter>Asteroids\Scenes\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\SceneWorkshop.cpp">
+      <Filter>Asteroids\Scenes\Workshop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\Application.h">
@@ -189,7 +197,12 @@
     <ClInclude Include="src\systems\PhysicsSystems.h">
       <Filter>Asteroids\ECS\Systems\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\SceneSettings.h" />
+    <ClInclude Include="src\scenes\SceneSettings.h">
+      <Filter>Asteroids\Scenes\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\SceneWorkshop.h">
+      <Filter>Asteroids\Scenes\Workshop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\free-pixel.ttf">
