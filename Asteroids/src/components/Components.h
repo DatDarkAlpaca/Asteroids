@@ -60,6 +60,15 @@ namespace ast
 		size_t health, maxHealth;
 	};
 
+	struct Invencibility
+	{
+		Invencibility(float duration)
+			: duration(duration) { }
+
+		bool currentlyInvencible = false;
+		float currentTime = 0.f, duration = 0.f;
+	};
+
 	// Physics:
 	struct Kinematics
 	{

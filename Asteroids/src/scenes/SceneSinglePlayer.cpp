@@ -34,26 +34,34 @@ void ast::SceneSinglePlayer::Update(float dt)
 		m_SceneTimer.Restart();
 	}
 
-	// Asteroid Spawn:
-	m_AsteroidTimer.Update(dt);
-
-	if (m_AsteroidTimer.IsDone())
-	{
-		AsteroidFactory::SpawnAsteroid(registry, regularAsteroid, 3);
-		m_AsteroidTimer.Restart();
-	}
-
-	// Physics & Input:
-	ShootingSystem(registry, dt);
-
-	DestroyOnBounds(registry);
-
-	StayOnBounds(registry);
-
-	PhysicsSystem(registry, dt);
-
 	// GUI:
 	m_MainContainer.Update(dt);
+
+	// Rudimentar game progression:
+	// Todo: wave system.
+	if (!m_Gameover)
+	{
+		// Asteroid Spawn:
+		m_AsteroidTimer.Update(dt);
+
+		if (m_AsteroidTimer.IsDone())
+		{
+			AsteroidFactory::SpawnAsteroid(registry, regularAsteroid, 3);
+			m_AsteroidTimer.Restart();
+		}
+
+		// Physics & Input:
+		ShootingSystem(registry, dt);
+
+		DestroyOnBounds(registry);
+
+		StayOnBounds(registry);
+
+		PhysicsSystem(registry, dt);
+
+		// Check whether it's a gameover:
+		m_Gameover = GameoverHealthSystem(registry);	
+	}
 }
 
 void ast::SceneSinglePlayer::Render(sf::RenderWindow& window)

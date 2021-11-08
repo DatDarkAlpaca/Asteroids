@@ -27,6 +27,9 @@ namespace ast
 
 	private:
 		Timer m_SceneTimer, m_AsteroidTimer;
+
+	private:
+		bool m_Gameover = false;
 	};
 
 }

@@ -153,17 +153,38 @@ void ast::HitboxSystem(entt::registry& registry)
 }
 
 // Collision System:
-void ast::ShipCollisionSystem(entt::registry& registry)
+void ast::ShipCollisionSystem(entt::registry& registry, float dt)
 {
-	auto shipView = registry.view<Transformable, Hitbox, Ship>();
+	auto shipView = registry.view<Transformable, Hitbox, Health, Invencibility, Ship>();
 	auto asteroidView = registry.view<Transformable, Kinematics, Hitbox, AsteroidSize>();
 
-	for (auto&& [entityShip, shipTransform, shipHitbox, shipID] : shipView.each())
+	for (auto&& [entityShip, shipTransform, shipHitbox, health, invencibility, shipID] : shipView.each())
 	{
 		for (auto&& [entityAsteroid, asteroidTransform, kinematics, asteroidHitbox, asteroidSize] : asteroidView.each())
 		{
 			if (shipHitbox.hitbox.getGlobalBounds().intersects(asteroidHitbox.hitbox.getGlobalBounds()))
 			{				
+				// Invencibility:
+				// Todo: find a decent place to handle these mechanics.
+				if (invencibility.currentTime < invencibility.duration)
+				{
+					invencibility.currentTime += dt;
+					invencibility.currentlyInvencible = true;
+				}
+				else
+				{
+					invencibility.currentTime = 0.f;
+					invencibility.currentlyInvencible = false;
+				}
+
+				// Invencibility:
+				if (invencibility.currentlyInvencible)
+					return;
+
+				// Lose health:
+				health.health -= 1;
+
+				// Destroy the asteroids:
 				auto position = asteroidTransform.transformable.getPosition();
 				auto direction = kinematics.velocity / kinematics.speed;
 
@@ -220,11 +241,26 @@ void ast::BulletCollisionSystem(entt::registry& registry)
 	}
 }
 
-void ast::CollisionSystem(entt::registry& registry)
+void ast::CollisionSystem(entt::registry& registry, float dt)
 {
-	ShipCollisionSystem(registry);
+	ShipCollisionSystem(registry, dt);
 
 	BulletCollisionSystem(registry);
+}
+
+bool ast::GameoverHealthSystem(entt::registry& registry)
+{
+	// Additional variable for clarity's sake:
+	bool gameover = false;
+
+	auto view = registry.view<Health>();
+	for (const auto& [entity, health] : view.each())
+	{
+		if (health.health == 0)
+			gameover = true;
+	}
+
+	return gameover;
 }
 
 // Physics Systems:
@@ -339,7 +375,7 @@ void ast::PhysicsSystem(entt::registry& registry, float dt)
 
 	VelocityClampSystem(registry);
 
-	CollisionSystem(registry);
+	CollisionSystem(registry, dt);
 		
 	FollowPlayerSystem(registry);
 

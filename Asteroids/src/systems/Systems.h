@@ -23,11 +23,14 @@ namespace ast
 	void HitboxSystem(entt::registry& registry);
 
 	// Collisions:
-	void ShipCollisionSystem(entt::registry& registry);
+	void ShipCollisionSystem(entt::registry& registry, float dt);
 
 	void BulletCollisionSystem(entt::registry& registry);
 
-	void CollisionSystem(entt::registry& registry);
+	void CollisionSystem(entt::registry& registry, float dt);
+
+	// Health:
+	bool GameoverHealthSystem(entt::registry& registry);
 
 	// Physics:
 	void AccelerateSystem(entt::registry& registry, float dt);
