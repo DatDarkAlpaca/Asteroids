@@ -19,7 +19,7 @@ namespace ast
 		vec.y /= m;
 	}
 
-	static sf::Vector2f normalized(sf::Vector2f& vec)
+	static sf::Vector2f normalized(const sf::Vector2f& vec)
 	{
 		sf::Vector2f temp = { 0,0 };
 

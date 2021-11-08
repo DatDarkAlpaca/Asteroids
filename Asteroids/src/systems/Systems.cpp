@@ -3,6 +3,7 @@
 #include "systems/Systems.h"
 #include "prefabs/Bullet.h"
 #include "prefabs/Asteroid.h"
+#include "../utils/Vector.h"
 
 void ast::RenderSystem(entt::registry& registry, sf::RenderWindow& window)
 {
@@ -95,8 +96,6 @@ void ast::DestroyOnBounds(entt::registry& registry)
 		const auto& x = transf.getPosition().x;
 		const auto& y = transf.getPosition().y;
 
-		std::cout << x << " " << y << "\n";
-
 		if (x < destroy.left)
 		{
 			registry.destroy(entity);
@@ -126,15 +125,19 @@ void ast::DestroyOnBounds(entt::registry& registry)
 // TODO: Implement this:
 void ast::FollowPlayerSystem(entt::registry& registry)
 {
-	/*if (!m_followPlayer)
-		return;
+	/*sf::Vector2f shipPos;
+	auto playerView = registry.view<Transformable, Ship>();
+	for (auto&& [entity, transformable, shipID] : playerView.each())
+		shipPos = transformable.transformable.getPosition();
 
-	sf::Vector2f dir = playerPos - getPosition();
-	game::normalize(dir);
+	auto view = registry.view<Transformable, Kinematics, MayFollow>();
 
-	using namespace game;
-	physics.velocity.x = dir.x * intDis(gen, param_int_t((int)physics.minSpeed, (int)physics.maxSpeed));
-	physics.velocity.y = dir.y * intDis(gen, param_int_t((int)physics.minSpeed, (int)physics.maxSpeed));*/
+	for (auto&& [entity, transformabe, kinematics, follow] : view.each())
+	{
+		auto dir = normalized(shipPos - transformabe.transformable.getPosition());
+		kinematics.velocity.x = dir.x * kinematics.speed;
+		kinematics.velocity.y = dir.y * kinematics.speed;
+	}*/
 }
 
 void ast::HitboxSystem(entt::registry& registry)
@@ -159,21 +162,18 @@ void ast::ShipCollisionSystem(entt::registry& registry)
 	{
 		for (auto&& [entityAsteroid, asteroidTransform, kinematics, asteroidHitbox, asteroidSize] : asteroidView.each())
 		{
-			const auto& bt = shipTransform.transformable.getTransform();
-			const auto& at = asteroidTransform.transformable.getTransform();
-
 			if (shipHitbox.hitbox.getGlobalBounds().intersects(asteroidHitbox.hitbox.getGlobalBounds()))
-			{
+			{				
 				auto position = asteroidTransform.transformable.getPosition();
 				auto direction = kinematics.velocity / kinematics.speed;
 
 				if (asteroidSize.size > 1)
 				{
-					auto dir0 = sf::Vector2f(direction.x, -direction.y);
-					auto dir1 = sf::Vector2f(-direction.x, direction.y);
+					auto dirDown = sf::Vector2f(direction.x, -direction.y);
+					auto dirLeft = sf::Vector2f(-direction.x, direction.y);
 
-					// CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir0);
-					// CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir1);
+					AsteroidFactory::CreateAsteroid(registry, position, dirDown, regularAsteroid, asteroidSize.size - 1);
+					AsteroidFactory::CreateAsteroid(registry, position, dirLeft, regularAsteroid, asteroidSize.size - 1);
 				}
 
 				registry.destroy(entityAsteroid);
@@ -204,11 +204,11 @@ void ast::BulletCollisionSystem(entt::registry& registry)
 
 				if (asteroidSize.size > 1)
 				{
-					auto dir0 = sf::Vector2f(direction.x, -direction.y);
-					auto dir1 = sf::Vector2f(-direction.x, direction.y);
+					auto dirDown = sf::Vector2f(direction.x, -direction.y);
+					auto dirLeft = sf::Vector2f(-direction.x, direction.y);
 
-					//CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir0);
-					//CreateChildAsteroid(registry, regularAsteroid, asteroidData.size - 1, position, dir1);
+					AsteroidFactory::CreateAsteroid(registry, position, dirDown, regularAsteroid, asteroidSize.size - 1);
+					AsteroidFactory::CreateAsteroid(registry, position, dirLeft, regularAsteroid, asteroidSize.size - 1);
 				}
 
 				registry.destroy(entityBullet);

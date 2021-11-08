@@ -100,6 +100,12 @@ namespace ast
 		bool enabled = true;
 	};
 
+	struct AsteroidHitbox
+	{
+		Hitbox bulletHitbox;
+		Hitbox shipHitbox;
+	};
+
 	// Asteroid:
 	struct MayFollow
 	{

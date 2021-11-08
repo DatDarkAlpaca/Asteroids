@@ -106,7 +106,7 @@ namespace ast
 		auto ship = registry.create();
 
 		registry.emplace<Kinematics>(ship, 0.f, -100.f, 100.f, -350.f, 150.f, 200.f);
-		registry.emplace<Shooting>(ship, 0.15f);
+		registry.emplace<Shooting>(ship, 0.3f);
 		registry.emplace<Input>(ship);
 
 		registry.emplace<Ship>(ship);
