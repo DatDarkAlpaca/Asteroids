@@ -123,7 +123,7 @@ namespace ast
 		registry.emplace<Transformable>(ship, transformable);
 
 		// Origin:
-		Shape shipShape(shipPack.vertices);
+		Shape shipShape(shipPack.vertices, color, sf::Color::Red);
 		
 		// Shape Component:
 		registry.emplace<Shape>(ship, shipShape);

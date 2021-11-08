@@ -73,6 +73,9 @@
     <Filter Include="Asteroids\ECS\Systems\Misc">
       <UniqueIdentifier>{20381c69-2e9c-4125-8a6d-2bdf1128ec86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\Scenes\Settings">
+      <UniqueIdentifier>{566672f8-e5e5-43b4-a7a4-83cd67f4b47c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">
@@ -108,6 +111,10 @@
     <ClCompile Include="src\scenes\SceneSinglePlayer.cpp">
       <Filter>Asteroids\Scenes\SinglePlayer</Filter>
     </ClCompile>
+    <ClCompile Include="src\systems\PhysicsSystems.cpp">
+      <Filter>Asteroids\ECS\Systems\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\SceneSettings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\Application.h">
@@ -179,6 +186,10 @@
     <ClInclude Include="src\prefabs\Trail.h">
       <Filter>Asteroids\ECS\Prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="src\systems\PhysicsSystems.h">
+      <Filter>Asteroids\ECS\Systems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\SceneSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\free-pixel.ttf">

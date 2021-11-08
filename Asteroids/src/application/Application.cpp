@@ -9,7 +9,7 @@ void ast::Application::Run()
 {
 	// Initializing the font:
 	fontHolder.font = std::make_shared<sf::Font>();
-	if (!fontHolder.font->loadFromFile("res/free-pixel.ttf"))
+	if (!fontHolder.font->loadFromFile("res/pixelated.ttf"))
 		std::cout << "Failed to load font free-pixel.ttf\n";
 
 	InitializeSeed();

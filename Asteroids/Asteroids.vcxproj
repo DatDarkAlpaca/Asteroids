@@ -14,6 +14,8 @@
     <Font Include="res\free-pixel.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\scenes\SceneSettings.cpp" />
+    <ClCompile Include="src\systems\PhysicsSystems.cpp" />
     <ClCompile Include="src\scenes\SceneSinglePlayer.cpp" />
     <ClCompile Include="src\gui\button\Button.cpp" />
     <ClCompile Include="src\gui\container\Container.cpp" />
@@ -34,6 +36,8 @@
     <ClCompile Include="src\application\window\WindowHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\scenes\SceneSettings.h" />
+    <ClInclude Include="src\systems\PhysicsSystems.h" />
     <ClInclude Include="src\scenes\SceneSinglePlayer.h" />
     <ClInclude Include="src\gui\button\Button.h" />
     <ClInclude Include="src\gui\container\Container.h" />

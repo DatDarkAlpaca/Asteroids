@@ -16,7 +16,7 @@ namespace ast::gui
 		sf::Color idleColor, pressedColor, selectedColor;
 	};
 
-	inline ColorHolder standaloneText(sf::Color(255, 255, 255), sf::Color(50, 50, 50), sf::Color(150, 150, 150));
+	inline ColorHolder standaloneText(sf::Color(255, 255, 255), sf::Color(50, 50, 50), sf::Color(200, 0, 0));
 	inline ColorHolder noneHolder(sf::Color(0, 0, 0, 0), sf::Color(0, 0, 0, 0), sf::Color(0, 0, 0, 0));
 	inline ColorHolder redHolder(sf::Color(255, 0, 0), sf::Color(255, 0, 0), sf::Color(255, 0, 0));
 

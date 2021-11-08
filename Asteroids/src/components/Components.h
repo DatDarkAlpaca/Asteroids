@@ -18,9 +18,11 @@ namespace ast
 	};
 
 	// Shape:
+	// Todo: Refactor that shit. Use another component as the color holder.
 	struct Shape
 	{
-		Shape(const sf::VertexArray& vertices) : shape(vertices) { }
+		Shape(const sf::VertexArray& vertices, sf::Color idleColor = sf::Color::White, sf::Color hitColor = sf::Color::White)
+			: shape(vertices), idleColor(idleColor), hitColor(hitColor) { }
 		
 		Shape() = default;
 
@@ -28,6 +30,21 @@ namespace ast
 
 		void setOrigin(sf::Vector2f origin) { this->origin = origin; }
 
+		void SetHit(bool hit)
+		{
+			if (hit)
+			{
+				for (size_t i = 0; i < shape.getVertexCount(); ++i)
+					shape[i].color = hitColor;
+			}
+			else
+			{
+				for (size_t i = 0; i < shape.getVertexCount(); ++i)
+					shape[i].color = idleColor;
+			}
+		}
+
+		sf::Color idleColor, hitColor;
 		sf::Vector2f origin;
 		sf::VertexArray shape;
 	};
@@ -73,6 +90,7 @@ namespace ast
 		bool m_Finished = false;
 	};
 
+	// Syncronize the trail color | Make the trail color custom?
 	struct Trail
 	{
 		Trail(float length, sf::Color color, sf::Vector2f startPosition, sf::Vector2f origin)
