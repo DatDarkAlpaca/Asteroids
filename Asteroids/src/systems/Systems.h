@@ -6,6 +6,9 @@
 // know what im doing by adding unnecessary overhead and overengineering this already overengineered game.
 namespace ast
 {
+	// Organize these asap:
+	void TrailSystem(entt::registry& registry, float dt);
+
 	// Player:
 	void RenderSystem(entt::registry& registry, sf::RenderWindow& window);
 

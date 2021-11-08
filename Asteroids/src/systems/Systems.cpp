@@ -3,7 +3,48 @@
 #include "systems/Systems.h"
 #include "prefabs/Bullet.h"
 #include "prefabs/Asteroid.h"
+#include "prefabs/Trail.h"
 #include "../utils/Vector.h"
+
+
+void ast::TrailSystem(entt::registry& registry, float dt)
+{
+	auto shipView = registry.view<Transformable, Hitbox, Input>();
+	for (const auto& [shipEntity, transformable, hitbox, input] : shipView.each())
+	{
+		const auto& rotation = float(transformable.transformable.getRotation());
+		const auto& rad = (rotation + 90.f) * 3.1415f / 180.f;
+		const auto& width = hitbox.hitbox.getGlobalBounds().width;
+		const auto& height = hitbox.hitbox.getGlobalBounds().height;
+
+		// Bounds:
+		if (input.accelerating)
+		{
+			int size = 10;
+			CreateTrail(registry, size, sf::Color::White,
+						transformable.transformable.getPosition() +
+						sf::Vector2f
+						(
+							(width / 2) * cosf(rad), (height / 2) * sinf(rad)
+						), { 5.f, height / 2.f - 15.f });
+		}
+
+		auto trailView = registry.view<Trail>();
+		for (const auto& [trailEntity, trail] : trailView.each())
+		{
+			// Follow the player
+			trail.trailShape.setRotation(rotation);
+			trail.trailShape.move({ 0.1f * cosf(rotation), 0.1f * sinf(rotation) });
+
+			//Color transition:
+			trail.trailShape.TransitionTo(dt, 1.5f, 500.f);
+
+			// Freeing:
+			if (trail.trailShape.Finished())
+				registry.destroy(trailEntity);
+		}
+	}
+}
 
 void ast::RenderSystem(entt::registry& registry, sf::RenderWindow& window)
 {
@@ -13,9 +54,14 @@ void ast::RenderSystem(entt::registry& registry, sf::RenderWindow& window)
 		window.draw(shape, transformable.transformable.getTransform());
 
 	// Others Wireframe:
-	auto wireView = registry.view<Hitbox>();
+	/*auto wireView = registry.view<Hitbox>();
 	for (auto&& [entity, hitbox] : wireView.each())
-		window.draw(hitbox.hitbox);
+		window.draw(hitbox.hitbox);*/
+
+	// Trail:
+	auto trailView = registry.view<Trail>();
+	for (auto&& [entity, trail] : trailView.each())
+		window.draw(trail.trailShape.vertices(), trail.trailShape.getTransform());
 }
 
 // Player Systems:

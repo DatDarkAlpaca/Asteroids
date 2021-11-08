@@ -3,7 +3,7 @@
 
 void ast::SceneSinglePlayer::Initialize()
 {
-	CreateShip(registry, ShipForm::Starrogue, sf::Color(200, 0, 100), true);
+	CreateShip(registry, ShipForm::Standard, sf::Color::White, false);
 
 	// FPS Label Clock:
 	m_SceneTimer.SetTime(0.3f);
@@ -58,6 +58,9 @@ void ast::SceneSinglePlayer::Update(float dt)
 		StayOnBounds(registry);
 
 		PhysicsSystem(registry, dt);
+
+		// Trail:
+		TrailSystem(registry, dt);
 
 		// Check whether it's a gameover:
 		m_Gameover = GameoverHealthSystem(registry);	

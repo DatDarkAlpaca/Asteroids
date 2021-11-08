@@ -32,6 +32,55 @@ namespace ast
 		sf::VertexArray shape;
 	};
 
+	class TrailShape : public sf::Transformable
+	{
+	public:
+		TrailShape(float length, sf::Color color, sf::Vector2f startPosition, sf::Vector2f origin)
+		{
+			m_Vertices.resize(4);
+			m_Vertices.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
+
+			m_Vertices[0].position = { length, 0 };
+			m_Vertices[1].position = { cosf(120) * length, sinf(120) * length };
+			m_Vertices[1].position = { cosf(240) * length, sinf(240) * length };
+			m_Vertices[3].position = { length, 0 };
+
+			for (size_t i = 0; i < m_Vertices.getVertexCount(); ++i)
+				m_Vertices[i].color = color;
+
+			setOrigin(origin);
+			setPosition(startPosition);
+		}
+
+	public:
+		void TransitionTo(float dt, float scaleMultplier = 1.f, float colorMultiplier = 1.f)
+		{
+			setScale(getScale() - sf::Vector2f(scaleMultplier * dt, scaleMultplier * dt));
+			
+			for (size_t i = 0; i < m_Vertices.getVertexCount(); ++i)
+				m_Vertices[i].color -= sf::Color(0, 0, 0, dt * colorMultiplier);
+
+			if (getScale().x <= 0.f || m_Vertices[0].color.a <= 0.f)
+				m_Finished = true;
+		}
+
+		inline bool Finished() { return m_Finished; }
+
+		const sf::VertexArray& vertices() const { return m_Vertices; }
+
+	private:
+		sf::VertexArray m_Vertices;
+		bool m_Finished = false;
+	};
+
+	struct Trail
+	{
+		Trail(float length, sf::Color color, sf::Vector2f startPosition, sf::Vector2f origin)
+			: trailShape(length, color, startPosition, origin) { }
+
+		TrailShape trailShape;
+	};
+
 	// Input:
 	struct Input
 	{

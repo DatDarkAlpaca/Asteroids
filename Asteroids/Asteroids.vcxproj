@@ -56,6 +56,7 @@
     <ClInclude Include="src\utils\Vector.h" />
     <ClInclude Include="src\gui\Widget.h" />
     <ClInclude Include="src\application\window\WindowHandler.h" />
+    <ClInclude Include="src\prefabs\Trail.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -176,6 +176,9 @@
     <ClInclude Include="src\scenes\SceneSinglePlayer.h">
       <Filter>Asteroids\Scenes\SinglePlayer</Filter>
     </ClInclude>
+    <ClInclude Include="src\prefabs\Trail.h">
+      <Filter>Asteroids\ECS\Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\free-pixel.ttf">

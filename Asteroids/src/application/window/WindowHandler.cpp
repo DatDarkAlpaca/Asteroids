@@ -8,7 +8,7 @@ void ast::WindowHandler::CreateWindow()
 		m_Window.close();
 
 	sf::ContextSettings Settings;
-	Settings.antialiasingLevel = 8;
+	Settings.antialiasingLevel = 0;
 
 	if (!m_Fullscreen)
 		m_Window.create(sf::VideoMode(WorldWidth, WorldHeight),
