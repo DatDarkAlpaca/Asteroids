@@ -43,7 +43,7 @@ namespace ast
 			// Hitbox:
 			sf::FloatRect bounds = vertices.getBounds();
 			auto hitboxSize = sf::Vector2f(bounds.width * 0.5, bounds.height * 0.5);
-			auto hitboxOrigin = sf::Vector2f(bounds.width / 2 * 0.5, bounds.height / 2 * 0.5);
+			auto hitboxOrigin = sf::Vector2f(float(bounds.width / 2 * 0.5), float(bounds.height / 2 * 0.5));
 			registry.emplace<Hitbox>(asteroid, hitboxSize, hitboxOrigin);
 
 			Transformable transformable;

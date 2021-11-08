@@ -2,6 +2,8 @@
 #include <entt.hpp>
 #include "components/Components.h"
 
+// Todo: split these up into multiple files for further fucking with my life and pretending that i actually
+// know what im doing by adding unnecessary overhead and overengineering this already overengineered game.
 namespace ast
 {
 	// Player:

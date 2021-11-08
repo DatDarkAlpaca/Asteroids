@@ -50,6 +50,16 @@ namespace ast
 		float cooldown = 0.f, cooldownMax;
 	};
 
+	// Health:
+	struct Health
+	{
+		Health(size_t maxHealth) : maxHealth(maxHealth) { health = maxHealth; }
+
+		Health() = default;
+
+		size_t health, maxHealth;
+	};
+
 	// Physics:
 	struct Kinematics
 	{
@@ -98,12 +108,6 @@ namespace ast
 		HitboxShape hitbox;
 
 		bool enabled = true;
-	};
-
-	struct AsteroidHitbox
-	{
-		Hitbox bulletHitbox;
-		Hitbox shipHitbox;
 	};
 
 	// Asteroid:

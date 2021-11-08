@@ -58,6 +58,21 @@
     <Filter Include="Asteroids\Scenes\SinglePlayer">
       <UniqueIdentifier>{ab5060e9-46b5-47be-a9c2-82e82902608e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids\ECS\Systems\Collision">
+      <UniqueIdentifier>{e9317056-41a5-4a8c-ba19-f6888c87a707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\ECS\Systems\Physics">
+      <UniqueIdentifier>{4805fb0e-ff06-495c-929b-5ac7a002f784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\ECS\Systems\NPC">
+      <UniqueIdentifier>{dcee6ceb-9ef9-4dd4-bfc4-2798b1d27937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\ECS\Systems\Player">
+      <UniqueIdentifier>{b4c16f13-1dfb-45c7-8596-ad81694a26c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asteroids\ECS\Systems\Misc">
+      <UniqueIdentifier>{20381c69-2e9c-4125-8a6d-2bdf1128ec86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\Application.cpp">
