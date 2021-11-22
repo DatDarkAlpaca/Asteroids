@@ -22,7 +22,7 @@ namespace ast
 	class AsteroidFactory
 	{
 	public:
-		static void SpawnAsteroid(entt::registry& registry, const AsteroidShapeData& data, int size)
+		static void CreateAsteroid(entt::registry& registry, const AsteroidShapeData& data, int size)
 		{
 			// Asteroid ID:
 			auto asteroid = registry.create();

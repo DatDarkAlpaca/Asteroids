@@ -2,6 +2,7 @@
 #include "PhysicsSystems.h"
 #include "../components/Components.h"
 #include "../prefabs/Asteroid.h"
+#include "../utils/Vector.h"
 
 // Physics:
 void ast::AccelerateSystem(entt::registry& registry, float dt)
@@ -83,15 +84,12 @@ void ast::MoveSystem(entt::registry& registry, float dt)
 void ast::RotateSystem(entt::registry& registry, float dt)
 {
 	auto shipView = registry.view<Transformable, Kinematics, Input>();
-
-	// Ship rotation:
 	for (auto&& [entity, transformable, kinematics, input] : shipView.each())
 	{
 		auto& transf = transformable.transformable;
 		transf.rotate(kinematics.angularSpeed * dt * input.rotationDirection);
 	}
 
-	// Todo: npc rotation.
 	auto view = registry.view<Transformable, Kinematics>(entt::exclude<Ship>);
 	for (auto&& [entity, transformable, kinematics] : view.each())
 	{
@@ -119,8 +117,8 @@ void ast::PhysicsSystem(entt::registry& registry, float dt)
 
 	CollisionSystem(registry, dt);
 
-	// FollowPlayerSystem(registry);
-
+	FollowShip(registry);
+	
 	RotateSystem(registry, dt);
 
 	MoveSystem(registry, dt);
@@ -251,6 +249,30 @@ void ast::InvencibilitySystem(entt::registry& registry, float dt)
 			{
 				invencibility.currentTime = 0;
 				invencibility.currentlyInvencible = false;
+			}
+		}
+	}
+}
+
+void ast::FollowShip(entt::registry& registry)
+{
+	auto asteroidView = registry.view<Transformable, Kinematics, MayFollow>();
+	auto shipView = registry.view<Transformable, Ship>();
+
+	for (auto&& [asteroid, asteroidTransform, kinematics, follow] : asteroidView.each())
+	{
+		if (follow.follow)
+		{
+			for (const auto& [ship, shipTransform, shipID] : shipView.each())
+			{
+				auto asteroidPosition = asteroidTransform.transformable.getPosition();
+				auto shipPosition = shipTransform.transformable.getPosition();
+
+				auto direction = normalized(shipPosition - asteroidPosition);
+
+				std::cout << magnitude(direction) << '\n';
+
+				kinematics.velocity = direction * kinematics.speed / 3.f;
 			}
 		}
 	}

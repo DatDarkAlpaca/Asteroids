@@ -26,4 +26,7 @@ namespace ast
 	void HitboxSystem(entt::registry& registry);
 
 	void InvencibilitySystem(entt::registry& registry, float dt);
+
+	// Asteroid:
+	void FollowShip(entt::registry& registry);
 }

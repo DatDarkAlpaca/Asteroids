@@ -46,7 +46,7 @@ void ast::SceneSinglePlayer::Update(float dt)
 
 		if (m_AsteroidTimer.IsDone())
 		{
-			AsteroidFactory::SpawnAsteroid(registry, regularAsteroid, 3);
+			AsteroidFactory::CreateAsteroid(registry, regularAsteroid, 3);
 			m_AsteroidTimer.Restart();
 		}
 

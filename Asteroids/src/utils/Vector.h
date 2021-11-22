@@ -5,7 +5,7 @@ namespace ast
 {
 	static float magnitude(const sf::Vector2f& vec)
 	{
-		return sqrtf(vec.x * vec.x + vec.y + vec.y);
+		return sqrtf(vec.x * vec.x + vec.y * vec.y);
 	}
 
 	static void normalize(sf::Vector2f& vec)
@@ -21,14 +21,14 @@ namespace ast
 
 	static sf::Vector2f normalized(const sf::Vector2f& vec)
 	{
-		sf::Vector2f temp = { 0,0 };
+		sf::Vector2f temp = { 0, 0 };
 
 		float m = magnitude(vec);
-		if (m == 0.f || m == 1.f)
+		if (m == 0.f)
 			return temp;
 
 		temp.x = vec.x / m;
-		temp.y = vec.x / m;
+		temp.y = vec.y / m;
 
 		return temp;
 	}
